@@ -27,7 +27,7 @@ function NewsletterSignup() {
         />
         <button
           type="submit"
-          className="self-start px-3.5 py-3 font-medium leading-none text-center bg-blue-600 rounded-md text-slate-50 hover:bg-blue-700 transition-colors"
+          className="self-start px-3.5 py-3.5 font-medium leading-none text-center bg-blue-600 rounded-md text-slate-50 hover:bg-blue-700 transition-colors"
         >
           Sign Up
         </button>

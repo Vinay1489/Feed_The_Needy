@@ -2,28 +2,30 @@ import React from "react";
 import DashboardCard from "./DashboardCard";
 
 export default function StatsSummary() {
+  
+  {/*X means default values which we later get from db and backend*/}
   const stats = [
     {
       title: "Total Donations",
-      value: "156",
+      value: "X",
       icon: "🍱",
-      trend: "+12% from last month",
+      trend: "+X% from last month",
     },
     {
       title: "NGOs Donated To",
-      value: "8",
+      value: "X",
       icon: "🏢",
-      trend: "2 new this month",
+      trend: "X new this month",
     },
     {
       title: "Last Donation",
-      value: "Apr 10",
+      value: "on Xth day",
       icon: "📅",
-      trend: "3 days ago",
+      trend: "X days ago",
     },
     {
       title: "Active Pickups",
-      value: "2",
+      value: "X",
       icon: "🟢",
       trend: "Scheduled for today",
     },
