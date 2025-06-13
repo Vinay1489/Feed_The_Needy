@@ -8,11 +8,14 @@ const ForgotPasswordDonor = () => {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate API call success
     setEmailSent(true);
+
+    const delay = 3000;
+    setTimeout(() => navigate("/donorforgot/reset"),delay);
+
     setTimeout(() => {
       setEmailSent(false);
-    }, 4000); // Hide success message after 4s
+    }, delay+1000); // Hide success message after 4s
   };
 
   return (
