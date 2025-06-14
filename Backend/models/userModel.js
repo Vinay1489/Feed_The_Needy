@@ -6,7 +6,7 @@ const { type } = require("os");
 
 //name,email,photo,password,passwordConfirm
 
-const userSchema = new mongoose.userSchema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "A User must have an email"],
@@ -57,5 +57,64 @@ const userSchema = new mongoose.userSchema({
   },
 });
 
-const User = mongoose.mongo.model("User", userSchema);
+userSchema.pre("save", async function (next) {
+  //Only run this function if the password was actually modified
+  if (!this.isModified("password")) {
+    return next();
+  }
+
+  //Hash the password with cost of 12
+  this.password = await bcrypt.hash(this.password, 12);
+
+  // Delete the passwordConfirm field
+  this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.pre("save", function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+userSchema.pre(/^find/, function (next) {
+  //this points to the current Query
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimeStamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    //console.log(changedTimeStamp,JWTTimestamp);
+    return JWTTimestamp < changedTimeStamp;
+  }
+
+  //FLASE means not changed the password
+  return false;
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  console.log({ resetToken }, this.passwordResetToken);
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  return resetToken;
+};
+
+const User = mongoose.model("User", userSchema);
 module.exports = User;

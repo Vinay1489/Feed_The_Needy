@@ -121,19 +121,22 @@ export default function App(){
           <Route
             path="/donorlogin/dashboard"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
 
-                  <DonorDashboard />
-              </ProtectedRoute>
+              //     <DonorDashboard />
+              // </ProtectedRoute>
+               <DonorDashboard />
+        
             }
           />
           <Route
             path="/volunteerlogin/dashboard"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
       
-                  <VolunteerDashboard />
-              </ProtectedRoute>
+              //     <VolunteerDashboard />
+              // </ProtectedRoute>
+                <VolunteerDashboard />
             }
           />
           <Route path="*" element={<SmartExpiryEstimator />} />
