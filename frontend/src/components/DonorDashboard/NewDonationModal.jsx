@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
+import { ImSpinner2 } from "react-icons/im";
 
 export default function NewDonationModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -9,9 +10,11 @@ export default function NewDonationModal({ isOpen, onClose }) {
     packaging: "",
     storage: "Room Temperature",
     location: "",
-    predictedExpiry: "", // for ML model
+    predictedExpiry: "",
     ngoVerified: false,
   });
+
+  const [isPredicting, setIsPredicting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -23,10 +26,44 @@ export default function NewDonationModal({ isOpen, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    // TODO: Call backend + ML model API to get expiry prediction
-    // Then update predictedExpiry state with the response
-    onClose();
+
+    console.log("Submitting donation:", formData);
+
+    // TODO: Send donation data to backend
+    // Example: fetch('/api/donations', { method: 'POST', body: JSON.stringify(formData) })
+
+    onClose(); // Close modal after submission
+  };
+
+  const handlePredictExpiry = async () => {
+    setIsPredicting(true);
+
+    try {
+      // TODO: Call ML backend to predict expiry
+      // Replace this mock with actual API call
+      /*
+      const res = await fetch("http://localhost:5000/api/predict-expiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      setFormData({ ...formData, predictedExpiry: data.expiry });
+      */
+
+      // Temporary mock logic
+      setTimeout(() => {
+        const mockExpiry = "4 hours from preparation time";
+        setFormData((prev) => ({
+          ...prev,
+          predictedExpiry: mockExpiry,
+        }));
+        setIsPredicting(false);
+      }, 5000);
+    } catch (error) {
+      console.error("Error predicting expiry:", error);
+      setIsPredicting(false);
+    }
   };
 
   return (
@@ -48,7 +85,7 @@ export default function NewDonationModal({ isOpen, onClose }) {
               value={formData.foodName}
               onChange={handleChange}
               placeholder="Food Name (e.g., Rice, Curry)"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 border rounded-lg"
               required
             />
 
@@ -62,7 +99,7 @@ export default function NewDonationModal({ isOpen, onClose }) {
               required
             />
 
-            <label className="block text-sm font-semibold text-gray-700">
+            <label className="block text-sm font-medium text-gray-700">
               ⏰ Prepared At:
               <input
                 type="datetime-local"
@@ -107,24 +144,31 @@ export default function NewDonationModal({ isOpen, onClose }) {
               required
             />
 
-            {/* 🔮 Expiry prediction output placeholder */}
+            {/* 🔮 Predict Expiry Button */}
+            <button
+              type="button"
+              onClick={handlePredictExpiry}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg font-semibold transition"
+              disabled={isPredicting}
+            >
+              {isPredicting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <ImSpinner2 className="animate-spin" />
+                  Predicting...
+                </span>
+              ) : (
+                "🔮 Predict Expiry"
+              )}
+            </button>
+
+            {/* ⏳ Show predicted expiry result */}
             {formData.predictedExpiry && (
               <div className="bg-blue-100 border border-blue-300 text-blue-800 px-4 py-2 rounded-md">
                 ⏳ Predicted Expiry: {formData.predictedExpiry}
               </div>
             )}
 
-            {/* ✅ NGO Verification */}
-            <label className="flex items-center space-x-2 text-sm">
-              <input
-                type="checkbox"
-                name="ngoVerified"
-                checked={formData.ngoVerified}
-                onChange={handleChange}
-                className="w-4 h-4"
-              />
-              <span>NGO verified the expiry and food condition</span>
-            </label>
+           
 
             <button
               type="submit"

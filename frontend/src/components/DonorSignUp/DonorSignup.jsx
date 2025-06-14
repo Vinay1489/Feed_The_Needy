@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function DonorSignup() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    organizationName: "",
+    Name: "",
     contactPerson: "",
     email: "",
     phone: "",
@@ -21,16 +21,8 @@ export default function DonorSignup() {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const organizationTypes = [
     "🏥 NGO",
-    "🙏 Charitable Trust",
-    "🕌 Religious Institution",
-    "🏘️ Community Organization",
-    "🏛️ Government Org",
-    "🏢 CSR Initiative",
-    "🏫 Educational Institution",
-    "🔧 Other",
   ];
 
   const evaluatePasswordStrength = (password) => {
@@ -55,8 +47,8 @@ export default function DonorSignup() {
     let valid = true;
 
     if (!formData.organizationName) {
-      newErrors.organizationName = true;
-      toast.error("📛 Organization name is required.");
+      newErrors.Name = true;
+      toast.error(" 🤝 Donor name is required.");
       valid = false;
     }
     if (!formData.contactPerson) {
@@ -89,11 +81,6 @@ export default function DonorSignup() {
       toast.error("❌ Passwords do not match.");
       valid = false;
     }
-    if (!formData.orgType) {
-      newErrors.orgType = true;
-      toast.error("🏢 Select your organization type.");
-      valid = false;
-    }
     if (!formData.termsAgreed) {
       newErrors.termsAgreed = true;
       toast.error("✅ Agree to terms & conditions.");
@@ -110,7 +97,7 @@ export default function DonorSignup() {
       toast.success("🎉 Donor account created!");
       setTimeout(() => navigate("/donorlogin"), 4000);
       setFormData({
-        organizationName: "",
+        Name: "",
         contactPerson: "",
         email: "",
         phone: "",
@@ -124,6 +111,7 @@ export default function DonorSignup() {
       setPasswordStrength(0);
     }
   };
+
 
   const strengthColors = [
     "bg-red-400",
@@ -146,12 +134,12 @@ export default function DonorSignup() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
-            name="organizationName"
-            placeholder="🏢 Organization Name"
+            name="Name"
+            placeholder="🤝 Donor Name"
             className={`p-2 border rounded ${
-              errors.organizationName ? "animate-shake border-red-500" : ""
+              errors.Name ? "animate-shake border-red-500" : ""
             }`}
-            value={formData.organizationName}
+            value={formData.Name}
             onChange={handleChange}
           />
           <input
