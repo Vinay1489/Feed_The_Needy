@@ -9,9 +9,19 @@ import NotificationsPanel from "./NotificationsPanel";
 import ProfileSection from "./ProfileSection";
 import FeedbackSection from "./FeedbackSection";
 import DarkModeToggle from "./DarkModeToggle";
+import NewDonationModal from "./NewDonationModal";
+// import SchedulePickupModal from "./SchedulePickupModal";
+// import EditProfileModal from "./EditProfileModal";
+// import ViewHistoryModal from "./ViewHistoryModal";
 
 export default function DonorDashboard() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const [openModal, setOpenModal] = useState(null);
+  // Values: 'donation', 'pickup', 'edit', 'history', or null
+
+  const handleOpen = (type) => setOpenModal(type);
+  const handleClose = () => setOpenModal(null);
 
   return (
     <main
@@ -31,13 +41,12 @@ export default function DonorDashboard() {
           <div className="lg:col-span-12">
             <WelcomeBanner />
           </div>
-
           <div className="lg:col-span-12">
             <StatsSummary />
           </div>
 
           <div className="lg:col-span-12">
-            <QuickActions />
+            <QuickActions onActionClick={handleOpen} />
           </div>
 
           <div className="lg:col-span-8">
@@ -52,12 +61,26 @@ export default function DonorDashboard() {
           <div className="lg:col-span-8">
             <NearbyNGOs />
           </div>
-
           <div className="lg:col-span-4">
             <FeedbackSection />
           </div>
         </div>
       </div>
+
+      {/* Conditionally render modals */}
+      {openModal === "donation" && (
+        <NewDonationModal isOpen={true} onClose={handleClose} />
+      )}
+
+      {/* {openModal === "pickup" && (
+        <SchedulePickupModal isOpen={true} onClose={handleClose} />
+      )}
+      {openModal === "edit" && (
+        <EditProfileModal isOpen={true} onClose={handleClose} />
+      )}
+      {openModal === "history" && (
+        <ViewHistoryModal isOpen={true} onClose={handleClose} />
+      )} */}
     </main>
   );
 }

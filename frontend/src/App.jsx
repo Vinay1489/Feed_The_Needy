@@ -51,95 +51,35 @@ export default function App(){
     <AuthProvider>
       <RouteTransitionWrapper>
         <Routes>
-          <Route
-            path="/"
-            element={
-              
-                <Home />
-            }
-          />
-          <Route
-            path="/ngologin"
-            element={
-                <NGOLogin />
-            }
-          />
-          <Route
-            path="/ngologinforgot"
-            element={
-                <ForgotPassword />
-            }
-          />
-          <Route
-            path="/ngoregister"
-            element={
-                <NGOSignup />
-            }
-          />
-          <Route
-            path="/ngologin/dashboard"
-            element={
-                <NGODashboard />
-            }
-          />
-          <Route
-            path="/volunteersignup"
-            element={
-                <Section />
-            }
-          />
-          <Route
-            path="/volunteerlogin"
-            element={
-                <VolunteerLogin />
-            }
-          />
-          <Route
-            path="/donorlogin"
-            element={
-                <DonorLogin />
-            }
-          />
-          <Route
-            path="/donorsignup"
-            element={
-                <DonorSignup />
-            }
-          />
-          <Route
-            path="/donorforgot"
-            element={
-                <ForgotPasswordDonor />
-            }
-          />
-          <Route
-            path="/donorforgot/reset"
-            element={
-                <DonorResetPassword />
-            }
-          />
+          <Route path="/" element={<Home />} />
+          <Route path="/ngologin" element={<NGOLogin />} />
+          <Route path="/ngologinforgot" element={<ForgotPassword />} />
+          <Route path="/ngoregister" element={<NGOSignup />} />
+          <Route path="/ngologin/dashboard" element={<NGODashboard />} />
+          <Route path="/volunteersignup" element={<Section />} />
+          <Route path="/volunteerlogin" element={<VolunteerLogin />} />
+          <Route path="/donorlogin" element={<DonorLogin />} />
+          <Route path="/donorsignup" element={<DonorSignup />} />
+          <Route path="/donorforgot" element={<ForgotPasswordDonor />} />
+          <Route path="/donorforgot/reset" element={<DonorResetPassword />} />
           <Route
             path="/donorlogin/dashboard"
             element={
               // <ProtectedRoute>
-
               //     <DonorDashboard />
               // </ProtectedRoute>
-               <DonorDashboard />
-        
+              <DonorDashboard />
             }
           />
           <Route
             path="/volunteerlogin/dashboard"
             element={
-              // <ProtectedRoute>
-      
-              //     <VolunteerDashboard />
-              // </ProtectedRoute>
+              <ProtectedRoute>
                 <VolunteerDashboard />
+              </ProtectedRoute>
             }
           />
-          <Route path="*" element={<SmartExpiryEstimator />} />
+          {/* <Route path="*" element={<SmartExpiryEstimator />} /> */}
         </Routes>
       </RouteTransitionWrapper>
     </AuthProvider>
