@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { FiMail, FiLock } from "react-icons/fi"; // Email & password icons
 import { useAuth } from "../../contexts/FakeAuthContext";
 
 const LoginForm = () => {
@@ -9,70 +10,82 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    
-
-  
+    // Handle login logic
   };
 
   return (
-    <section className="flex overflow-hidden flex-col px-8 py-9 mx-auto w-full text-sm rounded-xl border border-solid shadow-xl bg-white bg-opacity-30 border-white border-opacity-20 max-md:px-5 max-md:mt-10 max-md:max-w-full bg-sky-50">
-      <h2 className="self-start text-2xl font-bold leading-none text-slate-950">
+    <section className="flex overflow-hidden flex-col px-8 py-9 mx-auto w-full text-sm rounded-xl border border-solid shadow-xl bg-white bg-opacity-30 border-white border-opacity-20 max-w-md bg-sky-50">
+      <h2 className="text-2xl font-bold text-slate-950 text-center">
         Volunteer Login
       </h2>
 
       <form onSubmit={handleSubmit} className="mt-8">
+        {/* Email Field */}
         <div className="flex flex-col mb-6">
-          <label className="self-start font-medium leading-none text-slate-950">
+          <label className="mb-1 font-medium text-slate-950">
             Email Address
           </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-          />
+          <div className="flex items-center gap-2 px-3.5 py-3 mt-1 bg-white rounded-md border border-slate-200">
+            <FiMail className="text-slate-500 text-lg" />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
+            />
+          </div>
         </div>
 
+        {/* Password Field */}
         <div className="flex flex-col mb-6">
-          <label className="self-start font-medium leading-none text-slate-950">
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-          />
+          <label className="mb-1 font-medium text-slate-950">Password</label>
+          <div className="flex items-center gap-2 px-3.5 py-3 mt-1 bg-white rounded-md border border-slate-200">
+            <FiLock className="text-slate-500 text-lg" />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              className="w-full bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
+            />
+          </div>
         </div>
 
+        {/* Remember Me & Forgot Password */}
         <div className="flex justify-between items-center mb-6">
           <label className="flex gap-2 items-center font-medium text-slate-950">
             <input
               type="checkbox"
-              className="w-4 h-4 rounded border border-blue-600 border-solid"
+              className="w-4 h-4 rounded border border-blue-600"
             />
             Remember me
           </label>
-          <a className="text-blue-600 hover:text-blue-700">
-            <Link to="/">Forgot Password?</Link>
-          </a>
+          <Link
+            to="/"
+            className="text-blue-600 text-sm hover:text-blue-700 font-medium"
+          >
+            Forgot Password?
+          </Link>
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full px-16 py-4 font-medium leading-none text-center bg-blue-600 rounded-md text-slate-50 hover:bg-blue-700 transition-colors max-md:px-5"
+          className="w-full px-6 py-3 font-medium text-center bg-blue-600 rounded-md text-white hover:bg-blue-700 transition-colors"
         >
           Login
         </button>
 
-        <p className="mt-6 text-center text-slate-500">
+        {/* Signup Link */}
+        <p className="mt-6 text-center text-slate-500 text-sm">
           Don't have an account?{" "}
-          <a className="text-blue-600 hover:text-blue-700">
-            <Link to="/volunteersignup">Sign up as volunteer</Link>
-          </a>
+          <Link
+            to="/volunteersignup"
+            className="text-blue-600 hover:text-blue-700 font-semibold"
+          >
+            Sign up as volunteer
+          </Link>
         </p>
       </form>
     </section>

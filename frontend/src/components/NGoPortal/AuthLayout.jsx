@@ -2,7 +2,7 @@ import React from "react";
 
 function AuthLayout({ title, subtitle, children }) {
   return (
-    <section className="flex flex-col justify-center items-center min-h-screen px-4 py-16 bg-gradient-to-b from-indigo-50 to-white">
+    <section className="flex flex-col justify-center items-center min-h-screen px-4 py-8 bg-gradient-to-b from-indigo-50 to-white">
       <div className="flex flex-col items-center w-full max-w-[1368px] mb-12">
         <h1 className="text-5xl font-bold leading-none text-center text-slate-950 max-md:text-4xl">
           {title}
@@ -14,7 +14,7 @@ function AuthLayout({ title, subtitle, children }) {
 
       <div className="w-full flex justify-center">{children}</div>
 
-      <footer className="mt-16 text-center text-slate-500">
+      {/* <footer className="mt-16 text-center text-slate-500">
         <p>
           © {new Date().getFullYear()} Food Rescue Network. All rights reserved.
         </p>
@@ -29,7 +29,7 @@ function AuthLayout({ title, subtitle, children }) {
             Contact
           </a>
         </div>
-      </footer>
+      </footer> */}
     </section>
   );
 }

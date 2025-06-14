@@ -6,7 +6,7 @@ import BadgesCard from "./BadgesCard";
 
 const Section = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center px-10 py-12 max-md:px-4 max-md:py-8 bg-emerald-100">
+    <section className="min-h-screen flex flex-col justify-center items-center px-10 py-6 max-md:px-4 max-md:py-8 bg-emerald-100">
       <div className="flex flex-col items-center w-full max-w-[1368px] h-full max-md:max-w-full">
         {/* Title and Subtitle */}
         <h1 className="text-5xl font-bold text-center text-slate-950 max-md:text-4xl">

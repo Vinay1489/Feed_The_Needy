@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import AuthLayout from "./AuthLayout";
+import { FiMail, FiLock } from "react-icons/fi";
 
 function NGOLogin() {
   const [email, setEmail] = useState("");
@@ -9,7 +10,6 @@ function NGOLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
     console.log({ email, password, rememberMe });
   };
 
@@ -21,36 +21,43 @@ function NGOLogin() {
       <div className="w-full max-w-md">
         <form
           onSubmit={handleSubmit}
-          className="flex overflow-hidden flex-col px-8 py-9 mx-auto w-full text-sm rounded-xl border border-solid shadow-xl bg-white bg-opacity-30 border-white border-opacity-20 max-md:px-5 max-md:max-w-full"
+          className="flex flex-col px-8 py-5 mx-auto w-full text-sm rounded-xl border border-solid shadow-xl bg-white bg-opacity-30 border-white border-opacity-20 max-md:px-5"
         >
-          <h2 className="self-start text-2xl font-bold leading-none text-slate-950 mb-6">
-            Sign In
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-950 mb-6">Sign In</h2>
 
-          <label className="self-start mt-2 font-medium leading-none text-slate-950">
+          {/* Email Input with Icon */}
+          <label className="font-medium text-slate-950 mb-1">
             Email Address
           </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@organization.org"
-            required
-            className="overflow-hidden px-3.5 py-3.5 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 max-md:pr-5 max-md:max-w-full w-full"
-          />
+          <div className="flex items-center gap-2 px-3.5 py-3.5 mt-2 bg-white rounded-md border border-slate-200">
+            <FiMail className="text-slate-500 text-lg" />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@organization.org"
+              required
+              className="w-full bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
+            />
+          </div>
 
-          <label className="self-start mt-5 font-medium leading-none text-slate-950">
+          {/* Password Input with Icon */}
+          <label className="font-medium text-slate-950 mt-5 mb-1">
             Password
           </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            required
-            className="overflow-hidden px-3.5 py-3.5 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 max-md:pr-5 max-md:max-w-full w-full"
-          />
+          <div className="flex items-center gap-2 px-3.5 py-3.5 mt-2 bg-white rounded-md border border-slate-200">
+            <FiLock className="text-slate-500 text-lg" />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              className="w-full bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
+            />
+          </div>
 
+          {/* Remember Me and Forgot Password */}
           <div className="flex justify-between items-center mt-4">
             <div className="flex gap-2 items-center">
               <div
@@ -91,13 +98,15 @@ function NGOLogin() {
             </a>
           </div>
 
+          {/* Sign In Button */}
           <button
             type="submit"
-            className="px-16 py-4 mt-6 font-medium leading-none text-center bg-blue-600 rounded-md text-slate-50 hover:bg-blue-700 transition-colors max-md:px-5 max-md:max-w-full"
+            className="w-full px-6 py-4 mt-6 font-medium text-center bg-blue-600 rounded-md text-white hover:bg-blue-700 transition-colors"
           >
             Sign In
           </button>
 
+          {/* Register Link */}
           <div className="mt-6 text-center text-slate-600">
             Don't have an account?{" "}
             <a href="#" className="text-blue-600 hover:text-blue-800">

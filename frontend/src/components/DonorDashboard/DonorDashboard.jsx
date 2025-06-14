@@ -10,7 +10,7 @@ import ProfileSection from "./ProfileSection";
 import FeedbackSection from "./FeedbackSection";
 import DarkModeToggle from "./DarkModeToggle";
 import NewDonationModal from "./NewDonationModal";
-// import SchedulePickupModal from "./SchedulePickupModal";
+import SchedulePickupModal from "./SchedulePickupModal";
 // import EditProfileModal from "./EditProfileModal";
 // import ViewHistoryModal from "./ViewHistoryModal";
 
@@ -70,6 +70,9 @@ export default function DonorDashboard() {
       {/* Conditionally render modals */}
       {openModal === "donation" && (
         <NewDonationModal isOpen={true} onClose={handleClose} />
+      )}
+      {openModal === "pickup" && (
+        <SchedulePickupModal isOpen={true} onClose={handleClose} />
       )}
 
       {/* {openModal === "pickup" && (

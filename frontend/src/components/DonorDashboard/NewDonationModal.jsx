@@ -167,9 +167,6 @@ export default function NewDonationModal({ isOpen, onClose }) {
                 ⏳ Predicted Expiry: {formData.predictedExpiry}
               </div>
             )}
-
-           
-
             <button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition"

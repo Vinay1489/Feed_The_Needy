@@ -1,8 +1,19 @@
 "use client";
 import React, { useState } from "react";
 import AuthLayout from "./AuthLayout";
+import {
+  FaUserTie,
+  FaIdBadge,
+  FaEnvelope,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+  FaCity,
+  FaGlobe,
+  FaLock,
+  FaUnlockAlt,
+} from "react-icons/fa";
 
-function NGOSignup() {
+function AdminSetup() {
   const [formData, setFormData] = useState({
     orgName: "",
     regNumber: "",
@@ -28,193 +39,129 @@ function NGOSignup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log(formData);
+    console.log("Admin Profile:", formData);
   };
 
   return (
     <AuthLayout
-      title="NGO Registration"
-      subtitle="Join our network of food rescue organizations and help reduce food waste"
+      title="Admin (NGO) Setup"
+      subtitle="Configure your admin organization profile and secure access"
     >
       <div className="w-full max-w-4xl">
         <form
           onSubmit={handleSubmit}
           className="flex overflow-hidden flex-col px-8 py-9 mx-auto w-full text-sm rounded-xl border border-solid shadow-xl bg-white bg-opacity-30 border-white border-opacity-20 max-md:px-5 max-md:max-w-full"
         >
-          <h2 className="self-start text-2xl font-bold leading-none text-slate-950 mb-6">
-            Register Your Organization
+          <h2 className="text-2xl font-bold text-slate-950 mb-6">
+            Admin Profile Setup
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                Organization Name
-              </label>
-              <input
-                type="text"
-                name="orgName"
-                value={formData.orgName}
-                onChange={handleChange}
-                placeholder="Your organization's name"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                Registration Number
-              </label>
-              <input
-                type="text"
-                name="regNumber"
-                value={formData.regNumber}
-                onChange={handleChange}
-                placeholder="NGO registration number"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="organization@example.org"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Organization contact number"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col md:col-span-2">
-              <label className="self-start font-medium leading-none text-slate-950">
-                Address
-              </label>
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="Street address"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                City
-              </label>
-              <input
-                type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                placeholder="City"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                State
-              </label>
-              <input
-                type="text"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-                placeholder="State/Province"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                ZIP Code
-              </label>
-              <input
-                type="text"
-                name="zipCode"
-                value={formData.zipCode}
-                onChange={handleChange}
-                placeholder="ZIP/Postal code"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                Website (Optional)
-              </label>
-              <input
-                type="url"
-                name="website"
-                value={formData.website}
-                onChange={handleChange}
-                placeholder="https://yourorganization.org"
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Create a strong password"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="self-start font-medium leading-none text-slate-950">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirm your password"
-                required
-                className="overflow-hidden px-3.5 py-4 mt-2.5 bg-white rounded-md border border-solid border-slate-200 text-slate-500 w-full"
-              />
-            </div>
+            {[
+              {
+                icon: <FaUserTie />,
+                label: "Organization Name",
+                name: "orgName",
+                type: "text",
+                placeholder: "Your organization name",
+              },
+              {
+                icon: <FaIdBadge />,
+                label: "Registration Number",
+                name: "regNumber",
+                type: "text",
+                placeholder: "NGO registration number",
+              },
+              {
+                icon: <FaEnvelope />,
+                label: "Email Address",
+                name: "email",
+                type: "email",
+                placeholder: "admin@example.org",
+              },
+              {
+                icon: <FaPhoneAlt />,
+                label: "Phone Number",
+                name: "phone",
+                type: "tel",
+                placeholder: "Contact number",
+              },
+              {
+                icon: <FaMapMarkerAlt />,
+                label: "Address",
+                name: "address",
+                type: "text",
+                placeholder: "Street address",
+                fullWidth: true,
+              },
+              {
+                icon: <FaCity />,
+                label: "City",
+                name: "city",
+                type: "text",
+                placeholder: "City",
+              },
+              {
+                icon: <FaCity />,
+                label: "State",
+                name: "state",
+                type: "text",
+                placeholder: "State/Province",
+              },
+              {
+                icon: <FaCity />,
+                label: "ZIP Code",
+                name: "zipCode",
+                type: "text",
+                placeholder: "ZIP/Postal code",
+              },
+              {
+                icon: <FaGlobe />,
+                label: "Website (Optional)",
+                name: "website",
+                type: "url",
+                placeholder: "https://example.org",
+              },
+              {
+                icon: <FaLock />,
+                label: "Password",
+                name: "password",
+                type: "password",
+                placeholder: "Create a strong password",
+              },
+              {
+                icon: <FaUnlockAlt />,
+                label: "Confirm Password",
+                name: "confirmPassword",
+                type: "password",
+                placeholder: "Confirm password",
+              },
+            ].map((field, idx) => (
+              <div
+                key={idx}
+                className={`flex flex-col ${
+                  field.fullWidth ? "md:col-span-2" : ""
+                }`}
+              >
+                <label className="font-medium text-slate-950 flex items-center gap-2">
+                  {field.icon} {field.label}
+                </label>
+                <input
+                  type={field.type}
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  placeholder={field.placeholder}
+                  required={field.name !== "website"}
+                  className="px-3.5 py-4 mt-2.5 bg-white rounded-md border border-slate-200 text-slate-500 w-full"
+                />
+              </div>
+            ))}
           </div>
 
-          <div className="flex gap-2 self-start mt-6 font-medium leading-none text-slate-950">
+          <div className="flex items-start gap-2 mt-6 font-medium text-slate-950">
             <div
-              className={`flex justify-center items-center shrink-0 w-4 h-4 rounded border border-solid cursor-pointer ${
+              className={`w-4 h-4 border rounded cursor-pointer flex items-center justify-center ${
                 formData.agreeTerms
                   ? "bg-blue-600 border-blue-600"
                   : "border-blue-600"
@@ -245,7 +192,7 @@ function NGOSignup() {
               )}
             </div>
             <label
-              className="flex-auto cursor-pointer"
+              className="cursor-pointer"
               onClick={() =>
                 setFormData((prev) => ({
                   ...prev,
@@ -260,25 +207,18 @@ function NGOSignup() {
           <button
             type="submit"
             disabled={!formData.agreeTerms}
-            className={`px-16 py-4 mt-6 font-medium leading-none text-center rounded-md text-slate-50 transition-colors max-md:px-5 max-md:max-w-full ${
+            className={`px-16 py-4 mt-6 font-medium text-center rounded-md text-white transition-colors ${
               formData.agreeTerms
                 ? "bg-blue-600 hover:bg-blue-700"
                 : "bg-blue-400 cursor-not-allowed"
             }`}
           >
-            Register Organization
+            Save Admin Profile
           </button>
-
-          <div className="mt-6 text-center text-slate-600">
-            Already registered?{" "}
-            <a href="#" className="text-blue-600 hover:text-blue-800">
-              Sign in to your account
-            </a>
-          </div>
         </form>
       </div>
     </AuthLayout>
   );
 }
 
-export default NGOSignup;
+export default AdminSetup;
