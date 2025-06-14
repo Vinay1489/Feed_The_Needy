@@ -79,7 +79,7 @@ export default function App(){
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<SmartExpiryEstimator />} />
+          {/* <Route path="*" element={<SmartExpiryEstimator />} /> */}
         </Routes>
       </RouteTransitionWrapper>
     </AuthProvider>

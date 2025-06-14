@@ -9,9 +9,14 @@ import NotificationsPanel from "./NotificationsPanel";
 import ProfileSection from "./ProfileSection";
 import FeedbackSection from "./FeedbackSection";
 import DarkModeToggle from "./DarkModeToggle";
+import NewDonationModal from "./NewDonationModal";
 
 export default function DonorDashboard() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <main
@@ -20,6 +25,7 @@ export default function DonorDashboard() {
       }`}
     >
       <div className="max-w-7xl mx-auto space-y-6">
+
         <div className="flex justify-end">
           <DarkModeToggle
             isDarkMode={isDarkMode}
@@ -36,8 +42,17 @@ export default function DonorDashboard() {
             <StatsSummary />
           </div>
 
+     
           <div className="lg:col-span-12">
             <QuickActions />
+            <div className="mt-4 text-right">
+              <button
+                onClick={openModal}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-md transition-all"
+              >
+                ➕ New Donation
+              </button>
+            </div>
           </div>
 
           <div className="lg:col-span-8">
@@ -58,6 +73,9 @@ export default function DonorDashboard() {
           </div>
         </div>
       </div>
+
+    
+      <NewDonationModal isOpen={isModalOpen} onClose={closeModal} />
     </main>
   );
 }
