@@ -13,7 +13,6 @@ export default function DonorSignup() {
     address: "",
     password: "",
     confirmPassword: "",
-    orgType: "",
     termsAgreed: false,
   });
 
@@ -21,9 +20,7 @@ export default function DonorSignup() {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const organizationTypes = [
-    "🏥 NGO",
-  ];
+  
 
   const evaluatePasswordStrength = (password) => {
     let strength = 0;
@@ -46,7 +43,7 @@ export default function DonorSignup() {
     const newErrors = {};
     let valid = true;
 
-    if (!formData.organizationName) {
+    if (!formData.Name) {
       newErrors.Name = true;
       toast.error(" 🤝 Donor name is required.");
       valid = false;
@@ -104,7 +101,6 @@ export default function DonorSignup() {
         address: "",
         password: "",
         confirmPassword: "",
-        orgType: "",
         termsAgreed: false,
       });
       setErrors({});
@@ -232,21 +228,6 @@ export default function DonorSignup() {
               {showConfirmPassword ? "🙈" : "👁️"}
             </button>
           </div>
-          <select
-            name="orgType"
-            className={`p-2 border rounded col-span-2 ${
-              errors.orgType ? "animate-shake border-red-500" : ""
-            }`}
-            value={formData.orgType}
-            onChange={handleChange}
-          >
-            <option value="">🏢 Select Organization Type</option>
-            {organizationTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
           <label className="col-span-2 flex items-center gap-2 text-sm text-gray-700">
             <input
               name="termsAgreed"
