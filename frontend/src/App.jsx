@@ -21,6 +21,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FullPageAnimation from "./fallbacks/FullPageAnimation";
 import Loadable from "./Loadable.jsx";
 import RouteTransitionWrapper from "./RouteTransitionWrapper.jsx";
+import VolunteerResetPassword from "./components/VolunteerForgot/VolunteerResetPassword.jsx";
+//import ForgotPasswordVolunteer from "./components/VolunteerForgot/ForgotPasswordVolunteer.jsx";
 
 
 
@@ -44,8 +46,8 @@ const VolunteerDashboard = Loadable(lazy(() => delayImport(() => import("./compo
 const NGOLogin = Loadable(lazy(() => delayImport(() => import("./components/NGoPortal/NGoLogin"))));
 const NGOSignup = Loadable(lazy(() => delayImport(() => import("./components/NGoPortal/NGOSignup"))));
 const NGODashboard = Loadable(lazy(() => delayImport(() => import("./components/NGODashboard/NGODashboard"))));
-const SmartExpiryEstimator= Loadable(lazy(() => delayImport(() => import("./components/Expiry/SmartExpiryEstimator"))));
-
+//const SmartExpiryEstimator= Loadable(lazy(() => delayImport(() => import("./components/Expiry/SmartExpiryEstimator"))));
+const ForgotPasswordVolunteer = Loadable(lazy(()=> delayImport(()=> import("./components/VolunteerForgot/ForgotPasswordVolunteer"))))
 export default function App(){
   return (
     <AuthProvider>
@@ -63,6 +65,14 @@ export default function App(){
           <Route path="/donorforgot" element={<ForgotPasswordDonor />} />
           <Route path="/donorforgot/reset" element={<DonorResetPassword />} />
           <Route
+            path="/volunteerlogin/forgot"
+            element={<ForgotPasswordVolunteer />}
+          />
+          <Route
+            path="/volunteerlogin/reset"
+            element={<VolunteerResetPassword />}
+          />
+          <Route
             path="/donorlogin/dashboard"
             element={
               // <ProtectedRoute>
@@ -76,7 +86,7 @@ export default function App(){
             element={
               // <ProtectedRoute>
               // </ProtectedRoute>
-                <VolunteerDashboard />
+              <VolunteerDashboard />
             }
           />
           {/* <Route path="*" element={<SmartExpiryEstimator />} /> */}
