@@ -23,12 +23,10 @@ const Section = () => {
           <div className="w-1/2 max-md:w-full">
             <VolunteerForm />
           </div>
-
-          {/* Benefits and optional Badges */}
+{/* 
           <div className="w-1/2 flex flex-col items-center justify-center gap-6 max-md:w-full">
             <BenefitsCard />
-            {/* <BadgesCard /> */}
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

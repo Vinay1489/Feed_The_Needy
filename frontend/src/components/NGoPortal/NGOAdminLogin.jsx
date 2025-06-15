@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const NGOAdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const NGOAdminLogin = () => {
 
   return (
     <div className="min-h-screen bg-blue-100 flex items-center justify-center px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+      <div className="bg-white p-12 rounded-2xl shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-bold text-center text-blue-800 mb-2">
           🏢 NGO Admin Login
         </h1>
@@ -32,7 +33,7 @@ const NGOAdminLogin = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <FaEnvelope className="text-pink-500" />
+              <FaEnvelope className="text-blue-500" />
             </span>
             <input
               type="email"
@@ -41,7 +42,7 @@ const NGOAdminLogin = () => {
               onChange={handleChange}
               placeholder="admin@ngo.org"
               required
-              className="pl-10 pr-3 py-2 w-full border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="pl-10 pr-3 py-2 w-full border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2"
             />
           </div>
 
@@ -72,7 +73,7 @@ const NGOAdminLogin = () => {
               <span className="text-gray-600">Remember me</span>
             </label>
             <a href="#" className="text-blue-600 hover:underline">
-              Forgot password?
+              <Link to="/ngologinforgot">Forgot password?</Link>
             </a>
           </div>
 
@@ -90,7 +91,7 @@ const NGOAdminLogin = () => {
             href="/admin/register"
             className="text-blue-600 font-semibold hover:underline"
           >
-            Register your NGO
+            Register Here
           </a>
         </p>
       </div>
