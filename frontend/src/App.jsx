@@ -22,7 +22,6 @@ import FullPageAnimation from "./fallbacks/FullPageAnimation";
 import Loadable from "./Loadable.jsx";
 import RouteTransitionWrapper from "./RouteTransitionWrapper.jsx";
 import VolunteerResetPassword from "./components/VolunteerForgot/VolunteerResetPassword.jsx";
-import NGOAdminRegister from "./components/NGORegister/NGOAdminRegister.jsx";
 //import ForgotPasswordVolunteer from "./components/VolunteerForgot/ForgotPasswordVolunteer.jsx";
 
 
@@ -44,8 +43,12 @@ const ForgotPasswordDonor = Loadable(lazy(() => delayImport(() => import("./comp
 const DonorResetPassword = Loadable(lazy(() => delayImport(() => import("./components/DonorReset/DonorResetPassword"))));
 const DonorDashboard = Loadable(lazy(() => delayImport(() => import("./components/DonorDashboard/DonorDashboard"))));
 const VolunteerDashboard = Loadable(lazy(() => delayImport(() => import("./components/VolunteerDashboard/VolunteerDashboard"))));
-const NGOLogin = Loadable(lazy(() => delayImport(() => import("./components/NGoPortal/NGoLogin"))));
-const NGOSignup = Loadable(lazy(() => delayImport(() => import("./components/NGoPortal/NGOSignup"))));
+const NGOAdminLogin = Loadable(
+  lazy(() => delayImport(() => import("./components/NGoPortal/NGOAdminLogin.jsx")))
+);
+const NGOAdminRegister = Loadable(
+  lazy(() => delayImport(() => import("./components/NGORegister/NGOAdminRegister.jsx")))
+);
 const NGODashboard = Loadable(lazy(() => delayImport(() => import("./components/NGODashboard/NGODashboard"))));
 //const SmartExpiryEstimator= Loadable(lazy(() => delayImport(() => import("./components/Expiry/SmartExpiryEstimator"))));
 const ForgotPasswordVolunteer = Loadable(lazy(()=> delayImport(()=> import("./components/VolunteerForgot/ForgotPasswordVolunteer"))))
@@ -55,7 +58,7 @@ export default function App(){
       <RouteTransitionWrapper>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/ngologin" element={<NGOLogin />} />
+          <Route path="/ngologin" element={<NGOAdminLogin/>} />
           <Route path="/ngologinforgot" element={<ForgotPassword />} />
           <Route path="/ngoregister" element={<NGOAdminRegister />} />
           <Route path="/ngologin/dashboard" element={<NGODashboard />} />
