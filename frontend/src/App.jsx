@@ -22,6 +22,7 @@ import FullPageAnimation from "./fallbacks/FullPageAnimation";
 import Loadable from "./Loadable.jsx";
 import RouteTransitionWrapper from "./RouteTransitionWrapper.jsx";
 import VolunteerResetPassword from "./components/VolunteerForgot/VolunteerResetPassword.jsx";
+import NGOAdminRegister from "./components/NGORegister/NGOAdminRegister.jsx";
 //import ForgotPasswordVolunteer from "./components/VolunteerForgot/ForgotPasswordVolunteer.jsx";
 
 
@@ -56,7 +57,7 @@ export default function App(){
           <Route path="/" element={<Home />} />
           <Route path="/ngologin" element={<NGOLogin />} />
           <Route path="/ngologinforgot" element={<ForgotPassword />} />
-          <Route path="/ngoregister" element={<NGOSignup />} />
+          <Route path="/ngoregister" element={<NGOAdminRegister />} />
           <Route path="/ngologin/dashboard" element={<NGODashboard />} />
           <Route path="/volunteersignup" element={<Section />} />
           <Route path="/volunteerlogin" element={<VolunteerLogin />} />
