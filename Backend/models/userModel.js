@@ -9,7 +9,7 @@ const { type } = require("os");
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "A User must have an email"],
+    required: [true, "A User must have a name"],
   },
   email: {
     type: String,
@@ -24,9 +24,51 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["donor", "reciever", "admin"],
-    default: "admin",
+    enum: ["donor", "volunteer", "admin"],
+    default: "donor",
   },
+  organizationName: {
+    type: String,
+    required: function () {
+      return this.role === "admin";
+    },
+  },
+  registrationNumber: {
+    type: String,
+    required: function () {
+      return this.role === "admin";
+    },
+    unique: true,
+    sparse:true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  transportMode: {
+    type: String,
+    enum: ["van", "bike", "car", "walk"],
+    required: function () {
+      return this.role === "volunteer";
+    },
+  },
+
+  availability: {
+    type: String,
+    enum: ["weekdays", "weekends", "anytime"],
+    required: function () {
+      return this.role === "volunteer";
+    },
+  },
+  city: String,
+  state: String,
+  zipCode: String,
+  website: String,
+
   password: {
     type: String,
     required: [true, "Please provide a password"],

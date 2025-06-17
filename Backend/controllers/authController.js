@@ -35,14 +35,64 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-exports.signUp = catchAsync(async (req, res, next) => {
+// exports.signUp = catchAsync(async (req, res, next) => {
+//   // console.log("Request Body:", req.body);
+
+//  if (req.body.role === 'admin') {
+//     if (req.body.adminKey !== process.env.ADMIN_KEY) {
+//       return next(
+//         new AppError('Invalid admin key. Not authorized to sign up as admin.', 403)
+//       );
+//     }
+//   }
+
+//   const newUser = await User.create({
+//     name: req.body.name,
+//     email: req.body.email,
+//     password: req.body.password,
+//     passwordConfirm: req.body.passwordConfirm,
+//     passwordChangedAt: req.body.passwordChangedAt,
+//     role: req.body.role,
+//     phone: req.body.phone,
+//     address: req.body.address,
+//     transportMode:req.body.transportMode,
+//     availability:req.body.availability,
+//     organizationName: req.body.organizationName,
+//     registrationNumber: req.body.registrationNumber,
+//   });
+
+//   const url = `${req.protocol}://${req
+//     .get("host")
+//     .replace("127.0.0.1", "localhost")}/me`;
+//   console.log(url);
+//   // await new Email(newUser, url).sendWelcome();
+
+//   createSendToken(newUser, 201, res);
+// });
+
+
+exports.signUpAdmin = catchAsync(async (req, res, next) => {
   // console.log("Request Body:", req.body);
+
+ if (req.body.role === 'admin') {
+    if (req.body.adminKey !== process.env.ADMIN_KEY) {
+      return next(
+        new AppError('Invalid admin key. Not authorized to sign up as admin.', 403)
+      );
+    }
+  }
+
   const newUser = await User.create({
+    role: 'admin',
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
+    phone: req.body.phone,
+    address: req.body.address,
+    organizationName: req.body.organizationName,
+    registrationNumber: req.body.registrationNumber,
   });
 
   const url = `${req.protocol}://${req
@@ -54,8 +104,65 @@ exports.signUp = catchAsync(async (req, res, next) => {
   createSendToken(newUser, 201, res);
 });
 
+
+exports.signUpVolunteer = catchAsync(async (req, res, next) => {
+  // console.log("Request Body:", req.body);
+  const newUser = await User.create({
+    role:'volunteer',
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+    passwordChangedAt: req.body.passwordChangedAt,
+    phone: req.body.phone,
+    address: req.body.address,
+    transportMode:req.body.transportMode,
+    availability:req.body.availability,
+  });
+
+  const url = `${req.protocol}://${req
+    .get("host")
+    .replace("127.0.0.1", "localhost")}/me`;
+  console.log(url);
+  // await new Email(newUser, url).sendWelcome();
+
+  createSendToken(newUser, 201, res);
+});
+
+
+exports.signUpDonor = catchAsync(async (req, res, next) => {
+  // console.log("Request Body:", req.body);
+
+  const newUser = await User.create({
+    role: 'donor',
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+    passwordChangedAt: req.body.passwordChangedAt,
+    phone: req.body.phone,
+    address: req.body.address,
+    transportMode:req.body.transportMode,
+    availability:req.body.availability,
+    organizationName: req.body.organizationName,
+    registrationNumber: req.body.registrationNumber,
+  });
+
+  const url = `${req.protocol}://${req
+    .get("host")
+    .replace("127.0.0.1", "localhost")}/me`;
+  console.log(url);
+  // await new Email(newUser, url).sendWelcome();
+
+  createSendToken(newUser, 201, res);
+});
+
+
+
+
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
+  const requestedRole=req.role;
   if (!email || !password) {
     return next(new AppError("Please Provide email and password", 400));
   }
@@ -65,6 +172,11 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
   }
+
+if (user.role !== requestedRole) {
+    return next(new AppError(`Access denied. This is not a ${requestedRole} account.`, 403));
+  }
+
   createSendToken(user, 200, res);
 });
 
@@ -78,7 +190,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
-  //console.log(token);
+  console.log("This is tiken : ",token);
 
   if (!token) {
     return next(
@@ -87,7 +199,17 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   //2) Verification token
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  // const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return next(
+      new AppError('You are not logged in!. Please log in again!', 401)
+    );
+  }
+
   //console.log(decoded);
 
   //3) Check if user still exists
@@ -154,13 +276,15 @@ exports.logout = (req, res) => {
   });
   res.status(200).json({
     status: 'success',
+    message:"Logged out successfully"
   });
 };
 
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    //roles  ['admin','lead-guide'].role='user'
+    //roles  ['admin','donor','volunteer'].role='user'
+     console.log("restrictTo: current role =>", req.user.role);
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError('You dont have permission to perform this action', 403),
@@ -190,13 +314,17 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     //   subject: 'Your password reset toke (Valid for 10 min)',
     //   message,
     // });
+     let rolePath = '';
+  if (user.role === 'admin') rolePath = 'admins';
+  else if (user.role === 'volunteer') rolePath = 'volunteers';
+  else if (user.role === 'donor') rolePath = 'donors';
 
     const resetURL = `${req.protocol}://${req
       .get('host')
       .replace(
         '127.0.0.1',
         'localhost',
-      )}/api/v1/users/resetPassword/${resetToken}`;
+      )}/api/v1/${rolePath}/resetPassword/${resetToken}`;
     // await new Email(user, resetURL).sendpasswordReset();
 
     console.log(resetURL);
@@ -260,6 +388,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   }
 
   //3) If so, update password
+  console.log("This is password",user.password);
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
