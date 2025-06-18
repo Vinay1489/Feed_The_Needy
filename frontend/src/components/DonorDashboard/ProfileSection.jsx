@@ -1,53 +1,66 @@
-import React from "react";
-import DashboardCard from "./DashboardCard";
+import React, { useState, useRef } from "react";
+import { FaUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-export default function ProfileSection() {
+const ProfileSection = ({ user }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef();
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  const handleOutsideClick = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
   return (
-    <DashboardCard>
-      <div className="flex items-center">
-        <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-2xl">
-          JD
-        </div>
-        <div className="ml-4">
-          <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
-            John Doe
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Premium Donor
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-6 space-y-4">
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-slate-500 dark:text-slate-400">
-            Email
-          </span>
-          <span className="text-sm text-slate-900 dark:text-white">
-            john@example.com
-          </span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-slate-500 dark:text-slate-400">
-            Phone
-          </span>
-          <span className="text-sm text-slate-900 dark:text-white">
-            +1 234 567 890
-          </span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-slate-500 dark:text-slate-400">
-            Location
-          </span>
-          <span className="text-sm text-slate-900 dark:text-white">
-            New York, USA
-          </span>
-        </div>
-      </div>
-
-      <button className="mt-6 w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-        Edit Profile
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={toggleMenu}
+        className="flex items-center gap-2 text-sm text-gray-800 hover:text-blue-600 focus:outline-none"
+      >
+        {user.photo ? (
+          <img
+            src={user.photo}
+            alt="User"
+            className="w-8 h-8 rounded-full object-cover border border-gray-300"
+          />
+        ) : (
+          <FaUserCircle size={32} className="text-gray-500" />
+        )}
+        <span>{user.name}</span>
       </button>
-    </DashboardCard>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 border">
+          <ul className="text-sm text-gray-700">
+            <li>
+              <Link
+                to="/donor/profile"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                👀view Profile
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={() => alert("Logged out")}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+              >
+                🚪 Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
   );
-}
+};
+
+export default ProfileSection;
