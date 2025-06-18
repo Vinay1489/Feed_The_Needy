@@ -11,27 +11,27 @@ router.get(
   userController.getUser,
 );
 
-router.post('/signup', authController.signUp);
+// router.post('/signup', authController.signUp);
 
-router.post('/login', authController.login);
+// router.post('/login', authController.login);
 
-router.get('/logout', authController.logout);
+// router.get('/logout', authController.logout);
 
-router.post('/forgotPassword', authController.forgotPassword);
+// router.post('/forgotPassword', authController.forgotPassword);
 
-router.patch('/resetPassword/:token', authController.resetPassword);
+// router.patch('/resetPassword/:token', authController.resetPassword);
 
-// protect all the routers after this middleware.....alternate short hand of putting authcontroller.protect in every below middlewares
+// // protect all the routers after this middleware.....alternate short hand of putting authcontroller.protect in every below middlewares
 router.use(authController.protect);
 
-router.patch('/updateMyPassword', authController.updatePassword);
+// router.patch('/updateMyPassword', authController.updatePassword);
 
-// router.patch(
-//   '/updateMe',
-//   userController.uploadUserPhoto,
+router.patch(
+  '/updateMe',
+// userController.uploadUserPhoto,
 //   userController.resizeUserPhoto,
-//   userController.updateMe,
-// );
+  userController.updateMe,
+ );
 
 router.delete('/deleteMe', userController.deleteMe);
 
@@ -39,8 +39,7 @@ router.use(authController.restrictTo('admin'));
 
 router
   .route('/')
-  .get(userController.getAllUsers)
-  .post(userController.createUser);
+  .get(userController.getAllUsers);
 
 router
   .route(`/:id`)
