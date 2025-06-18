@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const ProfileSection = ({ user }) => {
+const ProfileSection = ({ user,onViewProfile }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef();
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -42,7 +43,7 @@ const ProfileSection = ({ user }) => {
           <ul className="text-sm text-gray-700">
             <li>
               <Link
-                to="/donor/profile"
+                onClick={onViewProfile}
                 className="block px-4 py-2 hover:bg-gray-100"
               >
                 👀view Profile
@@ -50,7 +51,7 @@ const ProfileSection = ({ user }) => {
             </li>
             <li>
               <button
-                onClick={() => alert("Logged out")}
+                onClick={() => setTimeout(()=>navigate("/"),3000)}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100"
               >
                 🚪 Logout

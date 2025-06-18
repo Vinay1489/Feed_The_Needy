@@ -12,11 +12,18 @@ import DarkModeToggle from "./DarkModeToggle";
 import NewDonationModal from "./NewDonationModal";
 import SchedulePickupModal from "./SchedulePickupModal";
 import EditProfileModal from "./EditProfileModal";
-import PickupTracker from "./PickupTracker";
-// import ViewHistoryModal from "./ViewHistoryModal";
+//import PickupTracker from "./PickupTracker";
+import ViewProfileModal from "./ViewProfileModal";
 
 export default function DonorDashboard() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const userData = {
+    name: "Harsha",
+    email: "harsha@example.com",
+    phone: "+91-9876543210",
+    location: "Hyderabad, India",
+    photo: null,
+  };
   const user = {
     name:"harsha",
     photo:null,
@@ -42,7 +49,10 @@ export default function DonorDashboard() {
               isDarkMode={isDarkMode}
               setIsDarkMode={setIsDarkMode}
             />
-            <ProfileSection user={user}/>
+            <ProfileSection
+              user={user}
+              onViewProfile={() => setOpenModal("viewProfile")}
+            />
           </div>
         </div>
 
@@ -69,7 +79,7 @@ export default function DonorDashboard() {
           </div>
         </div>
       </div>
-      
+
       {openModal === "donation" && (
         <NewDonationModal isOpen={true} onClose={handleClose} />
       )}
@@ -79,7 +89,13 @@ export default function DonorDashboard() {
       {openModal === "edit" && (
         <EditProfileModal isOpen={true} onClose={handleClose} />
       )}
-
+      {openModal === "viewProfile" && (
+        <ViewProfileModal
+          isOpen={true}
+          onClose={() => setOpenModal(null)}
+          user={userData}
+        />
+      )}
     </main>
   );
 }
