@@ -6,6 +6,7 @@ import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
 const NGOReset = () => {
+    console.log(motion);
   const [emailSent, setEmailSent] = useState(false);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();

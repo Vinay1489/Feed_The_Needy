@@ -58,9 +58,9 @@ export default function DonorDashboard() {
             <ProfileSection />
           </div>
 
-          <div className="lg:col-span-8">
+          {/* <div className="lg:col-span-8">
             <NearbyNGOs />
-          </div>
+          </div> */}
           <div className="lg:col-span-4">
             <FeedbackSection />
           </div>

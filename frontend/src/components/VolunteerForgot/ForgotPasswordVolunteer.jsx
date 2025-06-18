@@ -11,6 +11,7 @@ const ForgotPasswordVolunteer = () => {
   const [emailSent, setEmailSent] = useState(false);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  console.log(motion,toast);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -12,58 +12,29 @@ export default function NewDonationModal({ isOpen, onClose }) {
     location: "",
     predictedExpiry: "",
     ngoVerified: false,
+    ingredients: "",
   });
 
   const [isPredicting, setIsPredicting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     console.log("Submitting donation:", formData);
-
-    // TODO: Send donation data to backend
-    // Example: fetch('/api/donations', { method: 'POST', body: JSON.stringify(formData) })
-
-    onClose(); // Close modal after submission
+    onClose();
   };
 
-  const handlePredictExpiry = async () => {
+  const handlePredictExpiry = () => {
     setIsPredicting(true);
-
-    try {
-      // TODO: Call ML backend to predict expiry
-      // Replace this mock with actual API call
-      /*
-      const res = await fetch("http://localhost:5000/api/predict-expiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      setFormData({ ...formData, predictedExpiry: data.expiry });
-      */
-
-      // Temporary mock logic
-      setTimeout(() => {
-        const mockExpiry = "4 hours from preparation time";
-        setFormData((prev) => ({
-          ...prev,
-          predictedExpiry: mockExpiry,
-        }));
-        setIsPredicting(false);
-      }, 5000);
-    } catch (error) {
-      console.error("Error predicting expiry:", error);
+    setTimeout(() => {
+      const mockExpiry = "4 hours from preparation time";
+      setFormData((prev) => ({ ...prev, predictedExpiry: mockExpiry }));
       setIsPredicting(false);
-    }
+    }, 3000);
   };
 
   return (
@@ -72,20 +43,23 @@ export default function NewDonationModal({ isOpen, onClose }) {
       onClose={onClose}
       className="fixed inset-0 z-50 overflow-y-auto"
     >
-      <div className="flex items-center justify-center min-h-screen p-4 bg-black/50">
-        <Dialog.Panel className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6 space-y-4">
-          <Dialog.Title className="text-2xl font-bold text-center text-blue-700">
-            🍲 New Donation Form
+      <div className="flex items-center justify-center min-h-screen bg-black/40 px-4">
+        <Dialog.Panel className="bg-white w-full max-w-3xl rounded-lg shadow-xl p-8 space-y-6">
+          <Dialog.Title className="text-3xl font-bold text-center text-blue-800">
+            🍲 New Food Donation
           </Dialog.Title>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
             <input
               type="text"
               name="foodName"
               value={formData.foodName}
               onChange={handleChange}
               placeholder="Food Name (e.g., Rice, Curry)"
-              className="w-full px-4 py-2 border rounded-lg"
+              className="border px-4 py-2 rounded-md w-full"
               required
             />
 
@@ -95,27 +69,24 @@ export default function NewDonationModal({ isOpen, onClose }) {
               value={formData.quantity}
               onChange={handleChange}
               placeholder="Quantity (e.g., 5 kg or 10 packs)"
-              className="w-full px-4 py-2 border rounded-lg"
+              className="border px-4 py-2 rounded-md w-full"
               required
             />
 
-            <label className="block text-sm font-medium text-gray-700">
-              ⏰ Prepared At:
-              <input
-                type="datetime-local"
-                name="preparedAt"
-                value={formData.preparedAt}
-                onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border rounded-lg"
-                required
-              />
-            </label>
+            <input
+              type="datetime-local"
+              name="preparedAt"
+              value={formData.preparedAt}
+              onChange={handleChange}
+              className="border px-4 py-2 rounded-md w-full"
+              required
+            />
 
             <select
               name="packaging"
               value={formData.packaging}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="border px-4 py-2 rounded-md w-full"
               required
             >
               <option value="">Select Packaging</option>
@@ -128,7 +99,7 @@ export default function NewDonationModal({ isOpen, onClose }) {
               name="storage"
               value={formData.storage}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="border px-4 py-2 rounded-md w-full"
             >
               <option value="Room Temperature">Room Temperature</option>
               <option value="Refrigerated">Refrigerated</option>
@@ -140,36 +111,47 @@ export default function NewDonationModal({ isOpen, onClose }) {
               value={formData.location}
               onChange={handleChange}
               placeholder="Your Location / Area"
-              className="w-full px-4 py-2 border rounded-lg"
+              className="border px-4 py-2 rounded-md w-full"
               required
             />
 
-            {/* 🔮 Predict Expiry Button */}
-            <button
-              type="button"
-              onClick={handlePredictExpiry}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg font-semibold transition"
-              disabled={isPredicting}
-            >
-              {isPredicting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <ImSpinner2 className="animate-spin" />
-                  Predicting...
-                </span>
-              ) : (
-                "🔮 Predict Expiry"
-              )}
-            </button>
+            <textarea
+              name="ingredients"
+              value={formData.ingredients}
+              onChange={handleChange}
+              placeholder="List of Ingredients (e.g., rice, lentils, spices)"
+              className="col-span-1 md:col-span-2 border px-4 py-2 rounded-md w-full"
+              rows={3}
+              required
+            ></textarea>
 
-            {/* ⏳ Show predicted expiry result */}
-            {formData.predictedExpiry && (
-              <div className="bg-blue-100 border border-blue-300 text-blue-800 px-4 py-2 rounded-md">
-                ⏳ Predicted Expiry: {formData.predictedExpiry}
-              </div>
-            )}
+            <div className="col-span-1 md:col-span-2 space-y-2">
+              <button
+                type="button"
+                onClick={handlePredictExpiry}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-md font-semibold transition"
+                disabled={isPredicting}
+              >
+                {isPredicting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <ImSpinner2 className="animate-spin" />
+                    Predicting...
+                  </span>
+                ) : (
+                  "🔮 Predict Expiry"
+                )}
+              </button>
+
+              {formData.predictedExpiry && (
+                <div className="text-blue-700 bg-blue-100 border px-4 py-2 rounded-md text-center">
+                  ⏳ Predicted Expiry: {formData.predictedExpiry}
+                </div>
+              )}
+            </div>
+
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition"
+              className="col-span-1 md:col-span-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md font-semibold"
             >
               🚀 Submit Donation
             </button>
@@ -177,7 +159,7 @@ export default function NewDonationModal({ isOpen, onClose }) {
 
           <button
             onClick={onClose}
-            className="text-sm text-gray-500 hover:underline text-center block mx-auto mt-2"
+            className="text-center text-sm text-gray-500 hover:underline block mx-auto"
           >
             Cancel
           </button>

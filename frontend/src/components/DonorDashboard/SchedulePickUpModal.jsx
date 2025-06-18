@@ -90,19 +90,7 @@ export default function SchedulePickupModal({
             </label>
 
             {/* Assign Volunteer */}
-            <label className="block text-sm font-medium text-gray-700">
-              🙋 Assign Volunteer (Optional)
-              <select
-                name="assignedVolunteer"
-                value={formData.assignedVolunteer}
-                onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border rounded-lg"
-              >
-                <option value="">-- None --</option>
-                <option value="volunteer1">Harsha</option>
-                <option value="volunteer2">Vikas</option>
-              </select>
-            </label>
+
 
             {/* Special Instructions */}
             <label className="block text-sm font-medium text-gray-700">

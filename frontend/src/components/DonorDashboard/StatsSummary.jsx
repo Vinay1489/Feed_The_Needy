@@ -12,9 +12,9 @@ export default function StatsSummary() {
       trend: "+X% from last month",
     },
     {
-      title: "NGOs Donated To",
+      title: "Total Quantity Donated",
       value: "X",
-      icon: "🏢",
+      icon: "📦 ",
       trend: "X new this month",
     },
     {

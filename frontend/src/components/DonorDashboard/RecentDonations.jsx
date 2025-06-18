@@ -1,65 +1,69 @@
 import React from "react";
-import DashboardCard from "./DashboardCard";
-import StatusBadge from "./StatusBadge";
 
-export default function RecentDonations() {
-  const donations = [
-    {
-      date: "2025-04-10",
-      item: "Cooked Meals",
-      quantity: "20 packs",
-      ngo: "Helping Hands",
-      status: "delivered",
-    },
-    {
-      date: "2025-03-28",
-      item: "Vegetables",
-      quantity: "15 kg",
-      ngo: "Care NGO",
-      status: "picked-up",
-    },
-  ];
+const donations = [
+  {
+    id: 1,
+    date: "2025-06-10",
+    items: [
+      { name: "Cooked Food", quantity: 10 },
+      { name: "Water Bottles", quantity: 5 },
+    ],
+    status: "Delivered",
+  },
+  {
+    id: 2,
+    date: "2025-06-15",
+    items: [{ name: "Dry Ration Pack", quantity: 3 }],
+    status: "Pending",
+  },
+];
 
+const RecentDonations = () => {
   return (
-    <DashboardCard>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
-          Recent Donations
-        </h2>
-        <button className="text-blue-600 hover:text-blue-700 dark:text-blue-400 text-sm font-medium">
-          View All
-        </button>
-      </div>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center md:text-left">
+        📦 Recent Donations
+      </h2>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="text-left text-sm font-medium text-slate-500 dark:text-slate-400">
-              <th className="pb-3">Date</th>
-              <th className="pb-3">Food Item</th>
-              <th className="pb-3">Quantity</th>
-              <th className="pb-3">NGO Name</th>
-              <th className="pb-3">Status</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm">
-            {donations.map((donation, index) => (
-              <tr
-                key={index}
-                className="border-t border-slate-200 dark:border-slate-700"
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {donations.map((donation) => (
+          <div
+            key={donation.id}
+            className="bg-white shadow-md rounded-xl p-4 border-l-4 border-blue-500"
+          >
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              🗓️ {donation.date}
+            </h3>
+            <div className="mb-2">
+              <p className="text-sm text-gray-600 font-medium">
+                Items Donated:
+              </p>
+              <ul className="list-disc pl-5 text-gray-700 text-sm">
+                {donation.items.map((item, index) => (
+                  <li key={index}>
+                    {item.name} — {item.quantity}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <p className="text-sm mt-1">
+              🚚 Status:{" "}
+              <span
+                className={`font-semibold ${
+                  donation.status === "Delivered"
+                    ? "text-green-600"
+                    : "text-yellow-600"
+                }`}
               >
-                <td className="py-3">{donation.date}</td>
-                <td className="py-3">{donation.item}</td>
-                <td className="py-3">{donation.quantity}</td>
-                <td className="py-3">{donation.ngo}</td>
-                <td className="py-3">
-                  <StatusBadge status={donation.status} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                {donation.status}
+              </span>
+            </p>
+          </div>
+        ))}
       </div>
-    </DashboardCard>
+    </div>
   );
-}
+};
+
+export default RecentDonations;
