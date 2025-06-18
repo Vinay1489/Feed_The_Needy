@@ -87,11 +87,8 @@ const NGOAdminLogin = () => {
 
         <p className="text-center text-sm text-gray-700 mt-6">
           Don’t have an account?{" "}
-          <a
-            href="/admin/register"
-            className="text-blue-600 font-semibold hover:underline"
-          >
-            Register Here
+          <a className="text-blue-600 font-semibold hover:underline">
+            <Link to="/ngoregister"> Register Here</Link>
           </a>
         </p>
       </div>

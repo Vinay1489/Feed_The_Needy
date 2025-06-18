@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FaBuilding,
   FaUserShield,
@@ -165,9 +166,7 @@ const NGOAdminRegister = () => {
             />
             <label className="text-sm">
               I agree to the{" "}
-              <a href="#" className="text-blue-600 font-medium">
-                terms and conditions
-              </a>
+              <a className="text-blue-600 font-medium">terms and conditions</a>
             </label>
           </div>
           <div className="md:col-span-2 mt-4">
@@ -179,6 +178,18 @@ const NGOAdminRegister = () => {
             </button>
           </div>
         </form>
+
+        <div className="mt-4 text-center">
+          <p className="text-sm text-gray-700">
+            Remember your password?{" "}
+            <Link
+              to="/ngologin"
+              className="text-blue-700 font-medium hover:underline"
+            >
+              Back to Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

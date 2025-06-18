@@ -62,7 +62,7 @@ const LoginForm = () => {
             Remember me
           </label>
           <Link
-            to="/"
+            to="/volunteerlogin/forgot"
             className="text-blue-600 text-sm hover:text-blue-700 font-medium"
           >
             Forgot Password?

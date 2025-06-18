@@ -23,8 +23,6 @@ import Loadable from "./Loadable.jsx";
 import RouteTransitionWrapper from "./RouteTransitionWrapper.jsx";
 
 
-
-
 function delayImport(factory, delay = 3000) {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -33,7 +31,7 @@ function delayImport(factory, delay = 3000) {
   });
 }
 const Home = Loadable(lazy(() => delayImport(() => import("./components/HomeComponent/Home"))));
-const ForgotPassword = Loadable(lazy(() => delayImport(() => import("./components/NGOForgot/ForgotPassword"))));
+const NGOResetPassword = Loadable(lazy(() => delayImport(() => import("./components/NGOForgot/NGOResetPassword.jsx"))));
 const VolunteerForm = Loadable(lazy(() => delayImport(() => import("./components/VolunteerSignUp/VolunteerForm.jsx"))));
 const VolunteerLogin = Loadable(lazy(() => delayImport(() => import("./components/VolunteerLogin/VolunteerLogin"))));
 const DonorLogin = Loadable(lazy(() => delayImport(() => import("./components/DonorLogin/DonorLogin"))));
@@ -48,6 +46,8 @@ const NGOAdminLogin = Loadable(
 const NGOAdminRegister = Loadable(
   lazy(() => delayImport(() => import("./components/NGORegister/NGOAdminRegister.jsx")))
 );
+
+const NGOReset = Loadable(lazy(()=>delayImport(()=>import("./components/NGOForgot/NGOReset.jsx"))))
 const NGODashboard = Loadable(lazy(() => delayImport(() => import("./components/NGODashboard/NGODashboard"))));
 const ForgotPasswordVolunteer = Loadable(lazy(()=> delayImport(()=> import("./components/VolunteerForgot/ForgotPasswordVolunteer"))));
 const VolunteerResetPassword = Loadable(
@@ -64,8 +64,9 @@ export default function App(){
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/ngologin" element={<NGOAdminLogin/>} />
-          <Route path="/ngologinforgot" element={<ForgotPassword />} />
+          <Route path="/ngoreset" element={<NGOResetPassword />} />
           <Route path="/ngoregister" element={<NGOAdminRegister />} />
+          <Route path="/ngologinforgot" element={<NGOReset/>}/>
           <Route path="/ngologin/dashboard" element={<NGODashboard />} />
           <Route path="/volunteersignup" element={<VolunteerForm />} />
           <Route path="/volunteerlogin" element={<VolunteerLogin />} />

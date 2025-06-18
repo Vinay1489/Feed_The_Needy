@@ -96,7 +96,7 @@ const VolunteerResetPassword = () => {
         <p className="text-sm mt-4 text-gray-700 text-center">
           Remember your password?{" "}
           <Link
-            to="/volunteer/login"
+            to="/volunteerlogin"
             className="text-blue-700 font-medium hover:underline"
           >
             Back to Login

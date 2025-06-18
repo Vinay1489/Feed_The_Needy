@@ -1,13 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
-const ForgotPasswordVolunteer = () => {
+const NGOReset = () => {
   const [emailSent, setEmailSent] = useState(false);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
@@ -17,11 +15,11 @@ const ForgotPasswordVolunteer = () => {
     setEmailSent(true);
 
     const delay = 3000;
-    setTimeout(() => navigate("/volunteerlogin/reset"), delay);
+    setTimeout(() => navigate("/ngoreset"), delay);
 
     setTimeout(() => {
       setEmailSent(false);
-    }, delay + 1000); // Hide success message after 4s
+    }, delay + 1000);
   };
 
   return (
@@ -37,9 +35,9 @@ const ForgotPasswordVolunteer = () => {
             Reset Password
           </h1>
           <p className="text-sm text-gray-700 mb-6">
-            Forgot your password? Don’t worry. Enter your registered email
-            address, and we’ll send you a link to reset your password and
-            restore your access to the Volunteer dashboard.
+            Enter your registered NGO admin email address, and we’ll send you a
+            link to reset your password and restore your access to the admin
+            dashboard.
           </p>
 
           <form onSubmit={handleSubmit} className="text-left">
@@ -50,7 +48,7 @@ const ForgotPasswordVolunteer = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@volunteer.org"
+              placeholder="admin@ngo.org"
               className="w-full mb-4 px-3 py-2 text-sm border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
@@ -66,7 +64,7 @@ const ForgotPasswordVolunteer = () => {
           <p className="text-sm mt-4 text-gray-700">
             Remembered your password?{" "}
             <Link
-              to="/volunteerlogin"
+              to="/ngologin"
               className="text-blue-700 font-medium hover:underline"
             >
               Go back to login
@@ -95,7 +93,7 @@ const ForgotPasswordVolunteer = () => {
                 </h3>
                 <p className="text-gray-600 text-sm">
                   Please check your email inbox for the password reset link to
-                  regain access to your Volunteer dashboard.
+                  regain access to your NGO admin dashboard.
                 </p>
               </motion.div>
             )}
@@ -106,4 +104,4 @@ const ForgotPasswordVolunteer = () => {
   );
 };
 
-export default ForgotPasswordVolunteer;
+export default NGOReset;
