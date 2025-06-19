@@ -17,6 +17,10 @@ function reducer(state,action){
             return{
                 ...state,user:action.payload,isAuthenticated:true
             }
+        case "logout":
+            return {
+                ...state,isAuthenticated:false
+            }
 
         default:
             throw new Error("unknown action");
@@ -32,6 +36,10 @@ const FAKE_USER = {
 function AuthProvider({children}){
     const [{user,isAuthenticated},dispatch] = useReducer(reducer,initialState);
 
+    function logout(){
+        dispatch({type:"logout"});
+    }
+
 
 function login(email, password) {
     if (email === FAKE_USER.email && password === FAKE_USER.password)
@@ -39,7 +47,7 @@ function login(email, password) {
   }
 
   return (
-    <AuthContext.Provider value={{isAuthenticated,user,login}}>
+    <AuthContext.Provider value={{isAuthenticated,user,login,logout}}>
         {children}
 
     </AuthContext.Provider>
