@@ -6,6 +6,7 @@ import UpcomingDeliveries from "./UpcomingDeliveries";
 import TaskHistory from "./TaskHistory";
 import DashboardMetrics from "./DashboardMetrics";
 import ActionButtons from "./ActionButtons";
+import VolunteerProfileModal from "./VolunteerProfileModal";
 
 const VolunteerDashboard = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -54,6 +55,7 @@ const VolunteerDashboard = () => {
             >
               History
             </button>
+            <VolunteerProfileModal/>
           </nav>
         </header>
 

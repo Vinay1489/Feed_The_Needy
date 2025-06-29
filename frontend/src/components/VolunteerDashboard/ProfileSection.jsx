@@ -37,7 +37,11 @@ const ProfileSection = () => {
             alt="Volunteer profile"
             className="w-16 h-16 rounded-full object-cover border-2 border-indigo-100"
           />
-          <span className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></span>
+          <span
+            className={`absolute bottom-0 right-0 w-4 h-4 ${
+              isAvailable ? "bg-green-500" : "bg-red-500"
+            } rounded-full border-2 border-white`}
+          ></span>
         </div>
         <div className="ml-4">
           <h3 className="font-semibold text-gray-800">Sarah Johnson</h3>
