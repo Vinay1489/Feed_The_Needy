@@ -1,10 +1,10 @@
-// 📁 volunteer-profile-examples.jsx (Horizontal layout version)
-
 import React, { useState } from "react";
+import UpdateVolunteer from "./UpdateVolunteer";
 
-export default function VolunteerProfileModal() {
+export default function VolunteerProfileModal({isAvailable}) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [showProfile, setShowProfile] = useState(false);
+  const [showUpdateForm,setShowUpdateForm] = useState(false);
   const profile = {
     name: "Harsha Vardhan",
     phone: "9876543210",
@@ -12,7 +12,7 @@ export default function VolunteerProfileModal() {
     city: "Warangal",
     photo: "https://www.w3schools.com/howto/img_avatar.png",
     volunteerId: "FTN-V1029",
-    status: "Active",
+    status: ["Active","InActive"],
     tasksCompleted: 12,
     mealsDelivered: 480,
     hoursVolunteered: 26,
@@ -26,6 +26,11 @@ export default function VolunteerProfileModal() {
     idProof: "adhar_card.pdf",
   };
 
+  const handleLogout = () => {
+    alert("Logging out...");
+    // Add actual logout logic here
+  };
+
   return (
     <div className="relative">
       {/* Profile Icon */}
@@ -33,16 +38,55 @@ export default function VolunteerProfileModal() {
         src={profile.photo}
         alt="Profile"
         className="w-10 h-10 rounded-full cursor-pointer border"
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsOpen(!isOpen)}
       />
 
-      {/* Modal */}
+      {/* Dropdown Menu */}
       {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white border shadow-md rounded-md z-50">
+          <button
+            onClick={() => {
+              setShowProfile(true);
+              setIsOpen(false);
+            }}
+            className="w-full text-left px-4 py-2 hover:bg-gray-100"
+          >
+            👁️ View Profile
+          </button>
+          <button
+            onClick={() => {
+              setShowUpdateForm(true);
+              setIsOpen(false);
+            }}
+            className="w-full text-left px-4 py-2 hover:bg-gray-100"
+          >
+            ✏️ Update Profile
+          </button>
+          <button
+            onClick={handleLogout}
+            className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+          >
+            🚪 Logout
+          </button>
+        </div>
+      )}
+      {showUpdateForm && (
+        <UpdateVolunteer
+          profile={profile}
+          onClose={() => setShowUpdateForm(false)}
+        //   onUpdate={(updatedProfile) => {
+        //     setProfile(updatedProfile); // update local state
+        //   }}
+        />
+      )}
+
+      {/* Modal View Profile */}
+      {showProfile && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 w-[800px] shadow-xl relative">
             <button
               className="absolute top-2 right-3 text-gray-600 text-xl"
-              onClick={() => setIsOpen(false)}
+              onClick={() => setShowProfile(false)}
             >
               &times;
             </button>
@@ -58,8 +102,8 @@ export default function VolunteerProfileModal() {
                 <h2 className="text-xl font-bold text-center">
                   {profile.name}
                 </h2>
-                <p className="text-sm text-gray-600 mt-5">📍 {profile.city}</p>
-                <p className="text-sm mt-5">📞 {profile.phone}</p>
+                <p className="text-sm text-gray-600">📍 {profile.city}</p>
+                <p className="text-sm">📞 {profile.phone}</p>
               </div>
 
               {/* Right side details */}
@@ -72,7 +116,10 @@ export default function VolunteerProfileModal() {
                     <strong>Volunteer ID:</strong> {profile.volunteerId}
                   </p>
                   <p>
-                    <strong>Status:</strong> ✅ {profile.status}
+                    <strong>Status:</strong> {isAvailable ? `✅${profile.status[0]}` : `❌${profile.status[1]}`}
+                  </p>
+                  <p>
+                    <strong>ID Proof:</strong> 📄 {profile.idProof}
                   </p>
                   <p>
                     <strong>Availability:</strong> {profile.availability}

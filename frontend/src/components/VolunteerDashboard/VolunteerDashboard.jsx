@@ -9,7 +9,8 @@ import ActionButtons from "./ActionButtons";
 import VolunteerProfileModal from "./VolunteerProfileModal";
 
 const VolunteerDashboard = () => {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  //const [activeTab, setActiveTab] = useState("dashboard");
+  const [isAvailable,setIsAvailable] = useState(true);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-indigo-50 to-white p-4 md:p-6 lg:p-8">
@@ -26,41 +27,32 @@ const VolunteerDashboard = () => {
 
           <nav className="flex space-x-2 mt-4 md:mt-0">
             <button
-              onClick={() => setActiveTab("dashboard")}
-              className={`px-4 py-2 rounded-lg font-medium ${
-                activeTab === "dashboard"
-                  ? "bg-indigo-600 text-white"
+              className={`px-4 py-1 ${
+                isAvailable
+                  ? "bg-green-500 text-white"
                   : "bg-white text-gray-700"
               }`}
+              onClick={() => setIsAvailable(true)}
             >
-              Dashboard
+              Available
             </button>
             <button
-              onClick={() => setActiveTab("tasks")}
-              className={`px-4 py-2 rounded-lg font-medium ${
-                activeTab === "tasks"
-                  ? "bg-indigo-600 text-white"
+              className={`px-4 py-1 ${
+                !isAvailable
+                  ? "bg-red-500 text-white"
                   : "bg-white text-gray-700"
               }`}
+              onClick={() => setIsAvailable(false)}
             >
-              Tasks
+              Unavailable
             </button>
-            <button
-              onClick={() => setActiveTab("history")}
-              className={`px-4 py-2 rounded-lg font-medium ${
-                activeTab === "history"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-white text-gray-700"
-              }`}
-            >
-              History
-            </button>
-            <VolunteerProfileModal/>
+
+            <VolunteerProfileModal isAvailable={isAvailable}/>
           </nav>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <ProfileSection />
+          {/* <ProfileSection /> */}
 
           <div className="lg:col-span-2">
             <ActiveTasksPanel />
