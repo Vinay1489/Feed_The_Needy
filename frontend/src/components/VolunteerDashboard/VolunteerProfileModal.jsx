@@ -75,9 +75,6 @@ export default function VolunteerProfileModal() {
                     <strong>Status:</strong> ✅ {profile.status}
                   </p>
                   <p>
-                    <strong>ID Proof:</strong> 📄 {profile.idProof}
-                  </p>
-                  <p>
                     <strong>Availability:</strong> {profile.availability}
                   </p>
                   <p>
