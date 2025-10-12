@@ -99,6 +99,16 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.virtual("notifications", {
+  ref: "Notification",       // The model to use
+  localField: "_id",         // Field in User
+  foreignField: "user",      // Field in Notification that references user
+  justOne: false             // false = returns array
+});
+
+userSchema.set("toJSON", { virtuals: true });
+userSchema.set("toObject", { virtuals: true });
+
 userSchema.pre("save", async function (next) {
   //Only run this function if the password was actually modified
   if (!this.isModified("password")) {
@@ -157,6 +167,8 @@ userSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
   return resetToken;
 };
+
+
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

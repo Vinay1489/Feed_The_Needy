@@ -16,7 +16,12 @@ exports.getAllDonors = catchAsync(async (req, res, next) => {
 
 // 🔍 Get a single donor by ID (with role check)
 exports.getDonor = catchAsync(async (req, res, next) => {
-  const donor = await User.findOne({ _id: req.params.id, role: "donor" });
+  const donor = await User.findOne({ _id: req.params.id, role: "donor" }).populate({
+  path: "notifications",
+  select: "type message foodItem read createdAt",
+  populate: { path: "foodItem", select: "foodItem category predictedExpiry" }
+});
+
   if (!donor) return next(new AppError("No donor found with that ID", 404));
 
   res.status(200).json({

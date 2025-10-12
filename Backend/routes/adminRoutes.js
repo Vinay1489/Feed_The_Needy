@@ -45,10 +45,20 @@ router.patch("/updateMyPassword", authController.updatePassword);
 
 router.route("/").get(adminController.getAllAdmins);
 
+router.get("/dashboard/stats", adminController.getDashboardStats);
+
+router.get("/food", adminController.getAllDonations);
+
 router
   .route(`/:id`)
   .get(adminController.getAdmin)
   .patch(adminController.updateAdmin)
   .delete(adminController.deleteAdmin);
+
+router.get("/food/pending",adminController.getPendingFood);
+
+router.patch(`/food/:id/status`,adminController.updateFoodStatus);
+
+
 
 module.exports = router;

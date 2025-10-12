@@ -57,7 +57,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 
 exports.getAllUsers = factory.getAll(User);
 
-exports.getUser=factory.getOne(User);
+exports.getUser=factory.getOne(User,{path:"notifications"});
 
 exports.createUser=factory.createOne(User);
 

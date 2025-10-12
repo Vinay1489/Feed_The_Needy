@@ -30,6 +30,8 @@ const userRouter=require("./routes/userRoutes");
 const adminRouter=require("./routes/adminRoutes");
 const volunteerRouter=require("./routes/volunteerRoutes");
 const donorRouter=require("./routes/donorRoutes");
+const foodRouter=require("./routes/foodRoutes");
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -38,6 +40,8 @@ app.use("/api/v1/admins",adminRouter);
 app.use("/api/v1/users",userRouter);
 app.use("/api/v1/volunteers",volunteerRouter);
 app.use("/api/v1/donors",donorRouter);
+
+app.use("/api/v1/food",foodRouter);
 
 
 app.all(`*`, (req, res, next) => {

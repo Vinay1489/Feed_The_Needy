@@ -17,7 +17,12 @@ exports.getAllVolunteers = catchAsync(async (req, res, next) => {
 
 // 🔍 Get a single volunteer by ID (with role check)
 exports.getVolunteer = catchAsync(async (req, res, next) => {
-  const volunteer = await User.findOne({ _id: req.params.id, role: 'volunteer' });
+  const volunteer = await User.findOne({ _id: req.params.id, role: 'volunteer' }).populate({
+  path: "notifications",
+  select: "type message foodItem read createdAt",
+  populate: { path: "foodItem", select: "foodItem category predictedExpiry" }
+});
+
   if (!volunteer) return next(new AppError('No volunteer found with that ID', 404));
 
   res.status(200).json({
