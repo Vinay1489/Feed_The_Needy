@@ -10,7 +10,7 @@ function ProtectedRoute({children}) {
     const navigate = useNavigate();
 
     useEffect(function(){
-        if(!isAuthenticated) navigate("/donorlogin");
+        if(!isAuthenticated) navigate("");
 
     },[isAuthenticated,navigate])
     return (
