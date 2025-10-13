@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Suspense } from "react";
-import FullPageAnimation from "../../fallbacks/FullPageAnimation"; 
-//import PageTransition from "../PageTransition";
+import FullPageAnimation from "../../fallbacks/FullPageAnimation";
+import PageTransition from "../PageTransition";
 const nav = [
   {
     to: "/volunteerlogin/dashboard",
@@ -215,21 +215,8 @@ export default function Layout({ children }) {
             </div>
           </header>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={location.pathname} // ✅ this ensures nested routes animate too
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-              >
-                <Suspense
-                  fallback={<div className="text-center py-10">Loading...</div>}
-                >
-                  <Outlet />
-                </Suspense>
-              </motion.div>
-            </AnimatePresence>
+            
+            <Outlet />
           </div>
         </main>
       </div>

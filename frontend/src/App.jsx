@@ -1,43 +1,85 @@
-import { lazy, Suspense } from "react";
-import {Routes,Route} from "react-router-dom";
+import { lazy } from "react";
+import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/FakeAuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
-import FullPageAnimation from "./fallbacks/FullPageAnimation";
-import Loadable from "./Loadable.jsx";
-//import RouteTransitionWrapper from "./RouteTransitionWrapper.jsx";
+import RouteTransitionWrapper from "./RouteTransitionWrapper.jsx";
 import { AppStateProvider } from "./AppState.jsx";
+import Loadable from "./Loadable.jsx";
+import Layout from "./components/VolunteerDashboard/Layout.jsx";
 
-import { AnimatePresence,motion } from "framer-motion";
-
-
-
-function delayImport(factory, delay = 3000) {
+// Utility to simulate delay (optional)
+function delayImport(factory, delay = 1500) {
   return new Promise((resolve) => {
-    setTimeout(() => {
-      factory().then(resolve);
-    }, delay);
+    setTimeout(() => factory().then(resolve), delay);
   });
 }
-const Home = Loadable(lazy(() => delayImport(() => import("./components/HomeComponent/Home"))));
-const NGOResetPassword = Loadable(lazy(() => delayImport(() => import("./components/NGOForgot/NGOResetPassword.jsx"))));
-const VolunteerForm = Loadable(lazy(() => delayImport(() => import("./components/VolunteerSignUp/VolunteerForm.jsx"))));
-const VolunteerLogin = Loadable(lazy(() => delayImport(() => import("./components/VolunteerLogin/VolunteerLogin"))));
-const DonorLogin = Loadable(lazy(() => delayImport(() => import("./components/DonorLogin/DonorLogin"))));
-const DonorSignup = Loadable(lazy(() => delayImport(() => import("./components/DonorSignUp/DonorSignup"))));
-const ForgotPasswordDonor = Loadable(lazy(() => delayImport(() => import("./components/DonorForgot/ForgotPasswordDonor"))));
-const DonorResetPassword = Loadable(lazy(() => delayImport(() => import("./components/DonorReset/DonorResetPassword"))));
-const DonorDashboard = Loadable(lazy(() => delayImport(() => import("./components/DonorDashboard/DonorDashboard"))));
-const VolunteerDashboard = Loadable(lazy(() => delayImport(() => import("./components/VolunteerDashboard/VolunteerDashboard"))));
+
+// Lazy-loaded components
+const Home = Loadable(
+  lazy(() => delayImport(() => import("./components/HomeComponent/Home")))
+);
 const NGOAdminLogin = Loadable(
-  lazy(() => delayImport(() => import("./components/NGoPortal/NGOAdminLogin.jsx")))
+  lazy(() =>
+    delayImport(() => import("./components/NGoPortal/NGOAdminLogin.jsx"))
+  )
 );
 const NGOAdminRegister = Loadable(
-  lazy(() => delayImport(() => import("./components/NGORegister/NGOAdminRegister.jsx")))
+  lazy(() =>
+    delayImport(() => import("./components/NGORegister/NGOAdminRegister.jsx"))
+  )
+);
+const NGOResetPassword = Loadable(
+  lazy(() =>
+    delayImport(() => import("./components/NGOForgot/NGOResetPassword.jsx"))
+  )
+);
+const NGOReset = Loadable(
+  lazy(() => delayImport(() => import("./components/NGOForgot/NGOReset.jsx")))
+);
+const NGODashboard = Loadable(
+  lazy(() =>
+    delayImport(() => import("./components/NGODashboard/NGODashboard.jsx"))
+  )
 );
 
-const NGOReset = Loadable(lazy(()=>delayImport(()=>import("./components/NGOForgot/NGOReset.jsx"))))
-const NGODashboard = Loadable(lazy(() => delayImport(() => import("./components/NGODashboard/NGODashboard"))));
-const ForgotPasswordVolunteer = Loadable(lazy(()=> delayImport(()=> import("./components/VolunteerForgot/ForgotPasswordVolunteer"))));
+const DonorLogin = Loadable(
+  lazy(() => delayImport(() => import("./components/DonorLogin/DonorLogin")))
+);
+const DonorSignup = Loadable(
+  lazy(() => delayImport(() => import("./components/DonorSignUp/DonorSignup")))
+);
+const ForgotPasswordDonor = Loadable(
+  lazy(() =>
+    delayImport(() => import("./components/DonorForgot/ForgotPasswordDonor"))
+  )
+);
+const DonorResetPassword = Loadable(
+  lazy(() =>
+    delayImport(() => import("./components/DonorReset/DonorResetPassword"))
+  )
+);
+const DonorDashboard = Loadable(
+  lazy(() =>
+    delayImport(() => import("./components/DonorDashboard/DonorDashboard"))
+  )
+);
+
+const VolunteerForm = Loadable(
+  lazy(() =>
+    delayImport(() => import("./components/VolunteerSignUp/VolunteerForm.jsx"))
+  )
+);
+const VolunteerLogin = Loadable(
+  lazy(() =>
+    delayImport(() => import("./components/VolunteerLogin/VolunteerLogin"))
+  )
+);
+const ForgotPasswordVolunteer = Loadable(
+  lazy(() =>
+    delayImport(() =>
+      import("./components/VolunteerForgot/ForgotPasswordVolunteer")
+    )
+  )
+);
 const VolunteerResetPassword = Loadable(
   lazy(() =>
     delayImport(() =>
@@ -46,99 +88,78 @@ const VolunteerResetPassword = Loadable(
   )
 );
 
-const Pickups = Loadable(
+// Volunteer Dashboard + subroutes (lazy-loaded)
+const VolunteerDashboard = Loadable(
   lazy(() =>
-    delayImport(() =>
-      import("./components/VolunteerDashboard/Pickups.jsx")
-    )
+      import("./components/VolunteerDashboard/VolunteerDashboard")
+
+  )
+);
+const Pickups = Loadable(
+  lazy(() => import("./components/VolunteerDashboard/Pickups.jsx")
   )
 );
 const Deliveries = Loadable(
-  lazy(() =>
-    delayImport(() => import("./components/VolunteerDashboard/Deliveries.jsx"))
-  )
+  lazy(() =>import("./components/VolunteerDashboard/Deliveries.jsx"))
 );
 const Calendar = Loadable(
-  lazy(() =>
-    delayImport(() => import("./components/VolunteerDashboard/Calendar.jsx"))
-  )
+  lazy(() => import("./components/VolunteerDashboard/Calendar.jsx"))
+  
 );
 const Profile = Loadable(
-  lazy(() =>
-    delayImport(() => import("./components/VolunteerDashboard/Profile.jsx"))
-  )
+  lazy(() => import("./components/VolunteerDashboard/Profile.jsx"))
+  
 );
 const Support = Loadable(
-  lazy(() =>
-    delayImport(() => import("./components/VolunteerDashboard/Support.jsx"))
-  )
-);
-const Layout = Loadable(
-  lazy(() =>
-    delayImport(() => import("./components/VolunteerDashboard/Layout.jsx"))
-  )
+  lazy(() =>import("./components/VolunteerDashboard/Support.jsx"))
+  
 );
 
-export default function App(){
+export default function App() {
   return (
     <AuthProvider>
-      <AnimatePresence>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/ngologin" element={<NGOAdminLogin />} />
-          <Route path="/ngoreset" element={<NGOResetPassword />} />
-          <Route path="/ngoregister" element={<NGOAdminRegister />} />
-          <Route path="/ngologinforgot" element={<NGOReset />} />
-          <Route path="/ngologin/dashboard" element={<NGODashboard />} />
-          <Route path="/volunteersignup" element={<VolunteerForm />} />
-          <Route path="/volunteerlogin" element={<VolunteerLogin />} />
-          <Route path="/donorlogin" element={<DonorLogin />} />
-          <Route path="/donorsignup" element={<DonorSignup />} />
-          <Route path="/donorforgot" element={<ForgotPasswordDonor />} />
-          <Route path="/donorforgot/reset" element={<DonorResetPassword />} />
-          <Route
-            path="/volunteerlogin/forgot"
-            element={<ForgotPasswordVolunteer />}
-          />
-          <Route
-            path="/volunteerlogin/reset"
-            element={<VolunteerResetPassword />}
-          />
-          <Route
-            path="/donorlogin/dashboard"
-            element={
-              // <ProtectedRoute>
-              //     <DonorDashboard />
-              // </ProtectedRoute>
-              <DonorDashboard />
-            }
-          />
-          <Route
-            path="/volunteerlogin/dashboard"
-            element={
-              // <ProtectedRoute>
-              // </ProtectedRoute>
-              <AppStateProvider>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                >
-                  <Layout />
-                </motion.div>
-              </AppStateProvider>
-            }
-          >
-            <Route index element={<VolunteerDashboard />} />
-            <Route path="pickups" element={<Pickups />} />
-            <Route path="deliveries" element={<Deliveries />} />
-            <Route path="calendar" element={<Calendar />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="support" element={<Support />} />
-          </Route>
-        </Routes>
-      </AnimatePresence>
+      <RouteTransitionWrapper>
+        <AppStateProvider>
+          <Routes>
+            {/* --- PUBLIC ROUTES --- */}
+            <Route path="/" element={<Home />} />
+            <Route path="/ngologin" element={<NGOAdminLogin />} />
+            <Route path="/ngoreset" element={<NGOResetPassword />} />
+            <Route path="/ngoregister" element={<NGOAdminRegister />} />
+            <Route path="/ngologinforgot" element={<NGOReset />} />
+            <Route path="/ngologin/dashboard" element={<NGODashboard />} />
+
+            <Route path="/donorlogin" element={<DonorLogin />} />
+            <Route path="/donorsignup" element={<DonorSignup />} />
+            <Route path="/donorforgot" element={<ForgotPasswordDonor />} />
+            <Route path="/donorforgot/reset" element={<DonorResetPassword />} />
+            <Route path="/donorlogin/dashboard" element={<DonorDashboard />} />
+
+            <Route path="/volunteersignup" element={<VolunteerForm />} />
+            <Route path="/volunteerlogin" element={<VolunteerLogin />} />
+            <Route
+              path="/volunteerlogin/forgot"
+              element={<ForgotPasswordVolunteer />}
+            />
+            <Route
+              path="/volunteerlogin/reset"
+              element={<VolunteerResetPassword />}
+            />
+
+            {/* --- VOLUNTEER DASHBOARD (Nested Layout) --- */}
+            <Route path="/volunteerlogin/dashboard" element={<Layout />}>
+              {/* index route → Dashboard main */}
+              <Route index element={<VolunteerDashboard />} />
+              {/* child routes */}
+              <Route path="pickups" element={<Pickups />} />
+              <Route path="deliveries" element={<Deliveries />} />
+              <Route path="calendar" element={<Calendar />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="support" element={<Support />} />
+            </Route>
+          </Routes>
+        </AppStateProvider>
+      </RouteTransitionWrapper>
     </AuthProvider>
   );
 }

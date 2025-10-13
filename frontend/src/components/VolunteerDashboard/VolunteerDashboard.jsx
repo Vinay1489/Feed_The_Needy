@@ -7,9 +7,8 @@ import Chat from "../../mini-components/Chat";
 import MiniCalendar from "../../mini-components/MiniCalendar";
 import { useAppState } from "../../AppState";
 import PageTransition from "../PageTransition";
-import { AnimatePresence,motion } from "framer-motion";
-
-
+import Layout from "./Layout";
+import { Link } from "react-router-dom";
 
 function StatCard({ title, value, sub }) {
   return (
@@ -82,7 +81,7 @@ export default function VolunteerDashboard() {
   };
 
   return (
-    
+      <PageTransition>
         <div className="space-y-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
@@ -94,18 +93,18 @@ export default function VolunteerDashboard() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <a
-                href="/calendar"
+              <Link
+                to="calendar"
                 className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-medium shadow hover:bg-emerald-700"
               >
                 View Calendar
-              </a>
-              <a
-                href="/support"
+              </Link>
+              <Link
+                to="support"
                 className="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 font-medium border border-emerald-100 hover:bg-emerald-100"
               >
                 Report Issue
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -310,6 +309,7 @@ export default function VolunteerDashboard() {
             />
           )}
         </div>
-      
+      </PageTransition>
+
   );
 }
