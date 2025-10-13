@@ -5,6 +5,17 @@ import RouteTransitionWrapper from "./RouteTransitionWrapper.jsx";
 import { AppStateProvider } from "./AppState.jsx";
 import Loadable from "./Loadable.jsx";
 import Layout from "./components/VolunteerDashboard/Layout.jsx";
+import AdminLayout from "./components/AdminDashboard/AdminLayout.jsx";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
+import Users from "./components/AdminDashboard/Users.jsx";
+import Donations from "./components/AdminDashboard/Donations.jsx";
+import Volunteers from "./components/AdminDashboard/Volunteers.jsx";
+import Inventory from "./components/AdminDashboard/Inventory.jsx";
+import Reports from "./components/AdminDashboard/Reports.jsx";
+import Settings from "./components/AdminDashboard/Settings.jsx";
+import Notifications from "./components/AdminDashboard/Notifications.jsx";
+
+
 
 // Utility to simulate delay (optional)
 function delayImport(factory, delay = 1500) {
@@ -156,6 +167,35 @@ export default function App() {
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
               <Route path="support" element={<Support />} />
+            </Route>
+
+            <Route path="/admin/dashboard" element={<AdminLayout/>}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<Users />} />
+              <Route
+                path="donations"
+                element={<Donations/>}
+              />
+              <Route
+                path="volunteers"
+                element={<Volunteers/>}
+              />
+              <Route
+                path="inventory"
+                element={<Inventory/>}
+              />
+              <Route
+                path="reports"
+                element={<Reports/>}
+              />
+              <Route
+                path="settings"
+                element={<Settings/>}
+              />
+              <Route
+                path="notifications"
+                element={<Notifications/>}
+              />
             </Route>
           </Routes>
         </AppStateProvider>
