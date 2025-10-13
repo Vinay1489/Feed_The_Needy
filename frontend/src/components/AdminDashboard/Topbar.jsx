@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import { Search, Bell } from "lucide-react";
 import { toast } from "sonner";
+import AdminMenu from "./AdminMenu"; // 👈 import your AdminMenu component
 
 export default function Topbar() {
   const [q, setQ] = useState("");
+
   return (
     <header className="sticky top-0 z-30 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-3">
+        {/* Logo for small screens */}
         <div className="flex items-center gap-2 lg:hidden">
-          <div className="h-7 w-7 rounded bg-primary/90" />
-          <span className="font-semibold">FoodCare Admin</span>
+          <div className="h-7 w-7 rounded bg-primary/90 grid place-items-center text-white text-xs">
+            🍽️
+          </div>
+          <span className="font-semibold text-sm">FoodCare Admin</span>
         </div>
+
+        {/* Search bar */}
         <div className="flex-1 max-w-xl">
           <div className="relative">
             <input
@@ -22,19 +29,27 @@ export default function Topbar() {
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
           </div>
         </div>
+
+        {/* Notify Volunteers */}
         <button
           onClick={() => toast.success("Notifications sent to volunteers")}
-          className="hidden sm:inline-flex items-center gap-2 h-9 px-3 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90"
+          className="hidden sm:inline-flex items-center gap-2 h-9 px-3 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 ml-auto"
         >
           <Bell className="h-4 w-4" /> Notify Volunteers
         </button>
+
+        {/* Notification Bell */}
         <button
-          className="ml-2 h-9 w-9 inline-flex items-center justify-center rounded-full border hover:bg-slate-100"
+          className="ml-2 h-9 w-9 inline-flex items-center justify-center rounded-full border hover:bg-slate-100 transition"
           onClick={() => toast("No new alerts")}
         >
-          <Bell className="h-4 w-4" />
+          <Bell className="h-4 w-4 text-slate-700" />
         </button>
-        <div className="ml-1 h-8 w-8 rounded-full bg-gradient-to-br from-primary to-emerald-500" />
+
+        {/* 🧑‍🍳 Admin Menu (extreme right) */}
+        <div className="ml-2">
+          <AdminMenu />
+        </div>
       </div>
     </header>
   );
