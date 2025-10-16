@@ -1,9 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Suspense } from "react";
 import FullPageAnimation from "../../fallbacks/FullPageAnimation";
 import PageTransition from "../PageTransition";
+import NotificationCenter from "../NotificationCenter";
 const nav = [
   {
     to: "/volunteerlogin/dashboard",
@@ -108,6 +109,8 @@ const nav = [
 
 export default function Layout({ children }) {
   const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
   const email = useMemo(
     () => window.__APP_USER_EMAIL__ || "nohijo1720@movfull.com",
     []
@@ -119,58 +122,165 @@ export default function Layout({ children }) {
     [email]
   );
 
+  const sidebarVariants = {
+    open: { x: 0, transition: { type: "spring", damping: 25, stiffness: 200 } },
+    closed: { x: "-100%", transition: { type: "spring", damping: 25, stiffness: 200 } }
+  };
+
+  const navItemVariants = {
+    hover: { 
+      scale: 1.02, 
+      x: 4,
+      transition: { type: "spring", damping: 15, stiffness: 300 }
+    },
+    tap: { scale: 0.98 }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-white text-gray-900">
-      <div className="flex">
-        <aside className="hidden md:flex md:w-64 flex-col gap-4 p-4 border-r border-emerald-100/60 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/50">
-          <Link to="/" className="flex items-center gap-2 mb-2">
-            <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white grid place-content-center font-bold">
-              FR
-            </div>
-            <div>
-              <div className="text-emerald-700 font-semibold leading-tight">
-                FoodRescue
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-100/30 text-gray-900 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-300/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+      
+      <div className="flex relative">
+        {/* Mobile overlay */}
+        <AnimatePresence>
+          {sidebarOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Sidebar */}
+        <motion.aside
+          variants={sidebarVariants}
+          initial="closed"
+          animate={sidebarOpen ? "open" : "closed"}
+          className={`fixed md:relative md:flex md:w-72 flex-col gap-6 p-6 border-r border-emerald-200/50 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-xl md:shadow-none z-50 md:z-auto h-full md:h-auto ${
+            sidebarOpen ? "flex" : "hidden md:flex"
+          }`}
+        >
+          {/* Logo Section */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <Link to="/" className="flex items-center gap-3 mb-6 group">
+              <motion.div 
+                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-500 text-white grid place-content-center font-bold shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300"
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                FR
+              </motion.div>
+              <div>
+                <div className="text-emerald-800 font-bold text-lg leading-tight">
+                  FoodRescue
+                </div>
+                <div className="text-xs text-emerald-600/80 font-medium">
+                  Volunteer Console
+                </div>
               </div>
-              <div className="text-xs text-emerald-900/60">
-                Volunteer Console
-              </div>
-            </div>
-          </Link>
+            </Link>
+          </motion.div>
+
+          {/* Navigation */}
           <nav className="flex-1">
-            <ul className="space-y-1">
-              {nav.map((n) => {
+            <motion.ul 
+              className="space-y-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              {nav.map((n, index) => {
                 const active = location.pathname === n.to;
                 return (
-                  <li key={n.to}>
-                    <Link
-                      to={n.to}
-                      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition ${
-                        active
-                          ? "bg-emerald-600 text-white shadow-sm"
-                          : "hover:bg-emerald-50"
-                      }`}
+                  <motion.li 
+                    key={n.to}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + index * 0.1 }}
+                  >
+                    <motion.div
+                      variants={navItemVariants}
+                      whileHover="hover"
+                      whileTap="tap"
                     >
-                      <span className="text-emerald-700/90 [&>svg]:fill-current [&>svg]:text-current">
-                        {n.icon}
-                      </span>
-                      <span className="font-medium">{n.label}</span>
-                    </Link>
-                  </li>
+                      <Link
+                        to={n.to}
+                        className={`group flex items-center gap-4 rounded-2xl px-4 py-3 transition-all duration-300 relative overflow-hidden ${
+                          active
+                            ? "bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-lg shadow-emerald-500/25"
+                            : "hover:bg-emerald-50/80 hover:shadow-md hover:shadow-emerald-500/10"
+                        }`}
+                        onClick={() => setSidebarOpen(false)}
+                      >
+                        {active && (
+                          <motion.div
+                            layoutId="activeTab"
+                            className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-2xl"
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                          />
+                        )}
+                        <span className={`relative z-10 transition-colors duration-300 ${
+                          active ? "text-white" : "text-emerald-700/90 group-hover:text-emerald-700"
+                        }`}>
+                          {n.icon}
+                        </span>
+                        <span className={`relative z-10 font-semibold transition-colors duration-300 ${
+                          active ? "text-white" : "text-emerald-900 group-hover:text-emerald-800"
+                        }`}>
+                          {n.label}
+                        </span>
+                      </Link>
+                    </motion.div>
+                  </motion.li>
                 );
               })}
-            </ul>
+            </motion.ul>
           </nav>
-          <div className="mt-auto p-3 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-500 text-white">
-            <p className="text-xs opacity-90">Logged in as</p>
-            <p className="font-semibold">{name}</p>
-            <p className="text-xs opacity-80 truncate">{email}</p>
-          </div>
-        </aside>
+
+          {/* User Profile Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mt-auto p-4 rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-500 to-emerald-400 text-white shadow-xl shadow-emerald-500/25 relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+            <div className="relative z-10">
+              <p className="text-xs opacity-90 font-medium mb-1">Logged in as</p>
+              <p className="font-bold text-lg">{name}</p>
+              <p className="text-xs opacity-80 truncate">{email}</p>
+            </div>
+          </motion.div>
+        </motion.aside>
+
+        {/* Main Content */}
         <main className="flex-1 min-w-0">
-          <header className="sticky top-0 z-30 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-emerald-100/60">
+          {/* Header */}
+          <motion.header 
+            className="sticky top-0 z-30 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 border-b border-emerald-200/50 shadow-sm"
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <button className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700">
+              <div className="flex items-center gap-4">
+                <motion.button 
+                  className="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 shadow-sm transition-all duration-200"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSidebarOpen(true)}
+                >
                   <svg viewBox="0 0 24 24" className="w-5 h-5">
                     <path
                       d="M4 6h16M4 12h16M4 18h16"
@@ -178,46 +288,57 @@ export default function Layout({ children }) {
                       strokeWidth="2"
                     />
                   </svg>
-                </button>
-                <h1 className="text-lg font-semibold text-emerald-900">
+                </motion.button>
+                <motion.h1 
+                  className="text-xl font-bold text-emerald-900 bg-gradient-to-r from-emerald-800 to-emerald-600 bg-clip-text text-transparent"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
                   Volunteer Dashboard
-                </h1>
+                </motion.h1>
               </div>
+              
               <div className="flex items-center gap-4">
-                <button className="relative w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100">
-                  <svg viewBox="0 0 24 24" className="w-5 h-5 m-auto mt-2">
-                    <path
-                      d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14V11a6 6 0 1 0-12 0v3a2 2 0 0 1-.6 1.4L4 17h5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                </button>
-                <div className="flex items-center gap-3">
-                  <img
-                    src={`https://api.dicebear.com/8.x/thumbs/svg?seed=${encodeURIComponent(
-                      name
-                    )}`}
+                {/* Notifications */}
+                <NotificationCenter />
+
+                {/* User Profile */}
+                <motion.div 
+                  className="flex items-center gap-3"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <motion.img
+                    src={`https://api.dicebear.com/8.x/thumbs/svg?seed=${encodeURIComponent(name)}`}
                     alt="avatar"
-                    className="w-10 h-10 rounded-xl ring-2 ring-emerald-100"
+                    className="w-11 h-11 rounded-xl ring-2 ring-emerald-200 shadow-sm"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", damping: 15, stiffness: 300 }}
                   />
                   <div className="hidden sm:block">
-                    <div className="text-sm font-semibold leading-tight">
+                    <div className="text-sm font-bold leading-tight text-emerald-900">
                       {name}
                     </div>
-                    <div className="text-xs text-emerald-800/70 leading-tight">
+                    <div className="text-xs text-emerald-600/80 leading-tight font-medium">
                       Volunteer
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
-          </header>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            
+          </motion.header>
+
+          {/* Page Content */}
+          <motion.div 
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
             <Outlet />
-          </div>
+          </motion.div>
         </main>
       </div>
     </div>

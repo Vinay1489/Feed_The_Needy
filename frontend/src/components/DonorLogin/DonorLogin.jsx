@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import ScrollToTop from "../ScrollToTop";
 import { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/FakeAuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 function DonorLogin() {
   const [email, setEmail] = useState("");
@@ -10,9 +10,15 @@ function DonorLogin() {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (email && password) login(email, password);
+    if (email && password) {
+      try {
+        await login({ email, password }, 'donor');
+      } catch (error) {
+        console.error('Login error:', error);
+      }
+    }
   }
 
   useEffect(() => {
