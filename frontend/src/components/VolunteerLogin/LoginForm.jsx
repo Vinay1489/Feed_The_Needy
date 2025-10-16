@@ -2,15 +2,26 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiMail, FiLock } from "react-icons/fi"; // Email & password icons
-import { useAuth } from "../../contexts/FakeAuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic
+    if (email && password) {
+      setLoading(true);
+      try {
+        await login({ email, password }, 'volunteer');
+      } catch (error) {
+        console.error('Login error:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -72,9 +83,17 @@ const LoginForm = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full px-6 py-3 font-medium text-center bg-blue-600 rounded-md text-white hover:bg-blue-700 transition-colors"
+          disabled={loading}
+          className="w-full px-6 py-3 font-medium text-center bg-blue-600 rounded-md text-white hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          Login
+          {loading ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              Logging in...
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
 
         {/* Signup Link */}

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "sonner";
+import { useAuth } from "../../contexts/AuthContext";
+import { ToastContainer } from "react-toastify";
 
 export default function DonorSignup() {
   const navigate = useNavigate();
+  const { signup, isAuthenticated } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     Name: "",
     contactPerson: "",
@@ -88,23 +91,28 @@ export default function DonorSignup() {
     return valid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      toast.success("🎉 Donor account created!");
-      setTimeout(() => navigate("/donorlogin"), 4000);
-      setFormData({
-        Name: "",
-        contactPerson: "",
-        email: "",
-        phone: "",
-        address: "",
-        password: "",
-        confirmPassword: "",
-        termsAgreed: false,
-      });
-      setErrors({});
-      setPasswordStrength(0);
+      setLoading(true);
+      try {
+        const userData = {
+          name: formData.Name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          password: formData.password,
+          passwordConfirm: formData.confirmPassword,
+          organizationName: formData.contactPerson,
+        };
+        
+        await signup(userData, 'donor');
+        navigate("/donorlogin/dashboard");
+      } catch (error) {
+        console.error('Signup error:', error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -247,9 +255,17 @@ export default function DonorSignup() {
 
         <button
           type="submit"
-          className="w-full py-3 mt-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          disabled={loading}
+          className="w-full py-3 mt-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          🚀 Create Donor Account
+          {loading ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              Creating Account...
+            </>
+          ) : (
+            "🚀 Create Donor Account"
+          )}
         </button>
 
         <p className="text-center text-sm mt-3">
