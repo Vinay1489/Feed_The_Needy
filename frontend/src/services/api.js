@@ -1,9 +1,21 @@
 import axios from 'axios';
 import { toast } from 'sonner';
 
+// Resolve API base URL dynamically for dev/prod
+const isBrowser = typeof window !== 'undefined';
+const isLocalVite =
+  isBrowser &&
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') &&
+  window.location.port === '5173';
+
+const apiBaseURL =
+  (import.meta && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+    ? import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')
+    : (isLocalVite ? 'http://localhost:3000/api/v1' : '/api/v1');
+
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: apiBaseURL,
   timeout: 10000,
   withCredentials: true,
   headers: {
@@ -332,7 +344,11 @@ export const uploadAPI = {
 export const socketAPI = {
   connect: () => {
     const { io } = require('socket.io-client');
-    return io('http://localhost:3000', {
+    const socketURL =
+      (import.meta && import.meta.env && import.meta.env.VITE_SOCKET_URL)
+        ? import.meta.env.VITE_SOCKET_URL
+        : (isLocalVite ? 'http://localhost:3000' : (isBrowser ? window.location.origin : 'http://localhost:3000'));
+    return io(socketURL, {
       withCredentials: true,
     });
   },
