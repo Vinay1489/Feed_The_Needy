@@ -11,7 +11,10 @@ export const useSocket = () => {
   useEffect(() => {
     if (isAuthenticated && user) {
       // Initialize socket connection
-      const newSocket = io('http://localhost:3000', {
+      const socketURL =
+        import.meta.env.VITE_SOCKET_URL ||
+        (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+      const newSocket = io(socketURL, {
         withCredentials: true,
         auth: {
           userId: user._id,

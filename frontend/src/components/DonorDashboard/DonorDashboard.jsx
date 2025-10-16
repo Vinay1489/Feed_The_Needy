@@ -11,7 +11,7 @@ import ProfileSection from "./ProfileSection";
 import FeedbackSection from "./FeedbackSection";
 import DarkModeToggle from "./DarkModeToggle";
 import NewDonationModal from "./NewDonationModal";
-import SchedulePickupModal from "./SchedulePickupModal";
+import SchedulePickupModal from "./SchedulePickUpModal";
 import EditProfileModal from "./EditProfileModal";
 import ViewProfileModal from "./ViewProfileModal";
 import { useAuth } from "../../contexts/AuthContext";
