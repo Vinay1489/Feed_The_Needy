@@ -1,9 +1,10 @@
 import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./contexts/FakeAuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import RouteTransitionWrapper from "./RouteTransitionWrapper.jsx";
 import { AppStateProvider } from "./AppState.jsx";
 import Loadable from "./Loadable.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Layout from "./components/VolunteerDashboard/Layout.jsx";
 import AdminLayout from "./components/AdminDashboard/AdminLayout.jsx";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
@@ -14,6 +15,7 @@ import Inventory from "./components/AdminDashboard/Inventory.jsx";
 import Reports from "./components/AdminDashboard/Reports.jsx";
 import Settings from "./components/AdminDashboard/Settings.jsx";
 import Notifications from "./components/AdminDashboard/Notifications.jsx";
+import Analytics from "./components/AdminDashboard/Analytics.jsx";
 
 
 
@@ -144,7 +146,11 @@ export default function App() {
             <Route path="/donorsignup" element={<DonorSignup />} />
             <Route path="/donorforgot" element={<ForgotPasswordDonor />} />
             <Route path="/donorforgot/reset" element={<DonorResetPassword />} />
-            <Route path="/donorlogin/dashboard" element={<DonorDashboard />} />
+            <Route path="/donorlogin/dashboard" element={
+              <ProtectedRoute requiredRole="donor">
+                <DonorDashboard />
+              </ProtectedRoute>
+            } />
 
             <Route path="/volunteersignup" element={<VolunteerForm />} />
             <Route path="/volunteerlogin" element={<VolunteerLogin />} />
@@ -158,7 +164,11 @@ export default function App() {
             />
 
             {/* --- VOLUNTEER DASHBOARD (Nested Layout) --- */}
-            <Route path="/volunteerlogin/dashboard" element={<Layout />}>
+            <Route path="/volunteerlogin/dashboard" element={
+              <ProtectedRoute requiredRole="volunteer">
+                <Layout />
+              </ProtectedRoute>
+            }>
               {/* index route → Dashboard main */}
               <Route index element={<VolunteerDashboard />} />
               {/* child routes */}
@@ -169,8 +179,13 @@ export default function App() {
               <Route path="support" element={<Support />} />
             </Route>
 
-            <Route path="/admin/dashboard" element={<AdminLayout/>}>
+            <Route path="/admin/dashboard" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminLayout/>
+              </ProtectedRoute>
+            }>
               <Route index element={<AdminDashboard />} />
+              <Route path="analytics" element={<Analytics />} />
               <Route path="users" element={<Users />} />
               <Route
                 path="donations"

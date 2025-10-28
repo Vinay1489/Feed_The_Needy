@@ -10,9 +10,19 @@ const globalErrorHandler=require("./controllers/errorController");
 const app = express();
 
 
+// Configure CORS to support multiple environments
+const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || 'http://localhost:5173')
+  .split(',')
+  .map((o) => o.trim());
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      // Allow non-browser requests or same-origin with no origin header
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error(`CORS blocked origin: ${origin}`));
+    },
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
